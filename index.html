@@ -34,6 +34,16 @@
     font-weight: 400;
     line-height: 1.5;
     min-height: 100vh;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url('rtb-bg.jpg') center center / cover no-repeat;
+    opacity: 0.12;
+    z-index: -1;
+    pointer-events: none;
   }
 
   /* HEADER */
@@ -324,8 +334,16 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+    border-bottom: none;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+  }
+  .dash-header-xp {
+    width: 100%;
+    order: 10;
+    margin-top: 8px;
   }
   .dash-name {
     font-family: 'Bebas Neue', sans-serif;
@@ -760,7 +778,8 @@
     .search-input { font-size: 16px; padding: 12px 16px 12px 44px; }
 
     /* MEMBER DASHBOARD */
-    .dash-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .dash-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .dash-header .gamify-level-circle { align-self: center; }
     .dash-name { font-size: 28px; }
     .dash-meta { font-size: 12px; }
     .dash-overall-badge { padding: 12px 20px; align-self: stretch; }
@@ -823,6 +842,322 @@
     .nav-tab { padding: 12px 12px; font-size: 11px; }
     .dash-name { font-size: 24px; }
     .stat-1rm { font-size: 34px; }
+  }
+  /* ======================== */
+  /* GAMIFICATION STYLES      */
+  /* ======================== */
+
+  /* LEVEL & XP BAR */
+  .gamify-level-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .gamify-level-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid var(--red);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    background: var(--bg);
+  }
+  .gamify-level-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--red);
+  }
+  .gamify-level-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+  }
+  .gamify-level-info { flex: 1; }
+  .gamify-level-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .gamify-level-sessions {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .gamify-xp-bar-outer {
+    width: 100%;
+    height: 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .gamify-xp-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), #ff4444);
+    transition: width 0.8s ease;
+  }
+  .gamify-xp-bar-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  }
+
+  /* UNLOCK REWARDS */
+  .gamify-rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  .gamify-reward-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .gamify-reward-card.locked {
+    opacity: 0.45;
+    filter: grayscale(0.6);
+  }
+  .gamify-reward-card.unlocked {
+    border-color: var(--green);
+    box-shadow: 0 0 16px rgba(34, 197, 94, 0.15);
+  }
+  .gamify-reward-card.next-unlock {
+    border-color: var(--red);
+    opacity: 1;
+    filter: none;
+    animation: pulse-border 2s infinite;
+  }
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(227, 0, 15, 0.3); }
+    50% { box-shadow: 0 0 16px 4px rgba(227, 0, 15, 0.2); }
+  }
+  .gamify-reward-icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+  .gamify-reward-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .gamify-reward-req {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .gamify-reward-status {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    display: inline-block;
+  }
+  .gamify-reward-status.unlocked {
+    color: var(--green);
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid var(--green);
+  }
+  .gamify-reward-status.locked {
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+  .gamify-reward-status.next {
+    color: var(--red);
+    background: rgba(227, 0, 15, 0.1);
+    border: 1px solid var(--red);
+  }
+
+  /* ACHIEVEMENT BADGES */
+  .gamify-badges-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  .gamify-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    transition: all 0.3s;
+  }
+  .gamify-badge.earned {
+    border-color: var(--gold);
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.1);
+  }
+  .gamify-badge.unearned {
+    opacity: 0.35;
+    filter: grayscale(0.8);
+  }
+  .gamify-badge-icon { font-size: 28px; }
+  .gamify-badge-info {}
+  .gamify-badge-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .gamify-badge-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* CHALLENGE CARDS */
+  .gamify-challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  .gamify-challenge-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .gamify-challenge-card.completed {
+    border-color: var(--green);
+  }
+  .gamify-progress-ring {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .gamify-progress-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .gamify-progress-ring .ring-bg {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 4;
+  }
+  .gamify-progress-ring .ring-fill {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.8s ease;
+  }
+  .gamify-ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--text);
+  }
+  .gamify-challenge-info { flex: 1; }
+  .gamify-challenge-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .gamify-challenge-detail {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .gamify-challenge-check {
+    font-size: 28px;
+    color: var(--green);
+  }
+
+  /* RANK BADGES */
+  .gamify-rank-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .gamify-rank-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .gamify-rank-badge.top5 {
+    background: rgba(255, 215, 0, 0.15);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+  }
+  .gamify-rank-badge.top10 {
+    background: rgba(192, 192, 192, 0.1);
+    color: var(--silver);
+    border: 1px solid var(--silver);
+  }
+  .gamify-rank-badge.top25 {
+    background: rgba(205, 127, 50, 0.1);
+    color: var(--bronze);
+    border: 1px solid var(--bronze);
+  }
+
+  /* MOBILE RESPONSIVE GAMIFY */
+  @media (max-width: 768px) {
+    .gamify-level-section { flex-direction: column; text-align: center; padding: 16px; gap: 16px; }
+    .gamify-level-circle { width: 80px; height: 80px; }
+    .gamify-level-num { font-size: 34px; }
+    .gamify-level-title { font-size: 22px; }
+    .gamify-rewards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .gamify-reward-card { padding: 14px; }
+    .gamify-reward-icon { font-size: 28px; }
+    .gamify-reward-name { font-size: 13px; }
+    .gamify-challenges-grid { grid-template-columns: 1fr; }
+    .gamify-badges-grid { gap: 8px; }
+    .gamify-badge { padding: 8px 12px; }
+    .gamify-badge-icon { font-size: 22px; }
+    .gamify-badge-name { font-size: 11px; }
   }
 </style>
 </head>
@@ -918,7 +1253,7 @@
 // DATA & STATE
 // ========================
 let DATA = null;
-let currentGender = { raw: 'male', pfp: 'male', age: 'male' };
+let currentGender = { raw: 'male', pfp: 'male', age: 'male', chins: 'male' };
 let selectedMemberId = null;
 
 // Embedded strength standards
@@ -1177,8 +1512,12 @@ function renderRawLeaderboard(gender) {
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded. Click Import Data to get started.')); return; }
   var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender; }));
   if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members found.')); return; }
-  // Add sortable fields
-  members.forEach(function(m) { m._bench = m.bench.weight; m._squat = m.squat.weight; m._deadlift = m.deadlift.weight; m._total = m.total; });
+  // Add sortable fields + chin up reps
+  members.forEach(function(m) {
+    m._bench = m.bench.weight; m._squat = m.squat.weight; m._deadlift = m.deadlift.weight; m._total = m.total;
+    var chinStats = getChinUpStats(m);
+    m._chinReps = chinStats.maxReps;
+  });
 
   var headers = [
     { text: '#', cls: 'num' },
@@ -1186,7 +1525,8 @@ function renderRawLeaderboard(gender) {
     { text: 'Bench', cls: 'lift', sortKey: '_bench' },
     { text: 'Squat', cls: 'lift', sortKey: '_squat' },
     { text: 'Deadlift', cls: 'lift', sortKey: '_deadlift' },
-    { text: 'Total', cls: 'lift', sortKey: '_total' }
+    { text: 'Total', cls: 'lift', sortKey: '_total' },
+    { text: 'Chin Ups', cls: 'lift', sortKey: '_chinReps' }
   ];
 
   buildSortableTable('raw-table', headers, members, function(m, i) {
@@ -1201,8 +1541,81 @@ function renderRawLeaderboard(gender) {
     tr.appendChild(el('td', { className: 'lift' }, m.squat.weight + ' kg'));
     tr.appendChild(el('td', { className: 'lift' }, m.deadlift.weight + ' kg'));
     tr.appendChild(el('td', { className: 'total' }, m.total + ' kg'));
+    tr.appendChild(el('td', { className: 'lift' }, m._chinReps > 0 ? m._chinReps + ' reps' : '\u2014'));
     return tr;
   }, '_total');
+}
+
+// Helper: get chin up stats for a member
+function getChinUpStats(member) {
+  var weightedKeys = ['weighted_chin_ups', 'weighted_pull_ups', 'neutral_grip_chin_up', 'chin_up', 'chin_up_4s_lowering', 'rest_pause_pull_up'];
+  var allEntries = [];
+  if (member.accessories) {
+    weightedKeys.forEach(function(k) {
+      if (member.accessories[k]) allEntries = allEntries.concat(member.accessories[k]);
+    });
+  }
+  if (allEntries.length === 0) return { bestWM: 0, bestWeight: 0, bestReps: 0, maxReps: 0, hasData: false };
+
+  // Best weighted (highest working max) — apply anomaly filter (>250kg = typo)
+  var validEntries = allEntries.filter(function(e) { return e.weight <= 250; });
+  var bestWeighted = validEntries.length > 0 ? validEntries.reduce(function(a, b) { return (a.wm || 0) > (b.wm || 0) ? a : b; }) : { weight: 0, reps: 0, wm: 0 };
+
+  // Best unassisted reps (weight <= 10kg = bodyweight only or light band assist)
+  var bwEntries = validEntries.filter(function(e) { return e.weight <= 10; });
+  var maxReps = bwEntries.length > 0 ? Math.max.apply(null, bwEntries.map(function(e) { return e.reps || 0; })) : 0;
+
+  return {
+    bestWM: Math.round((bestWeighted.wm || 0) * 10) / 10,
+    bestWeight: bestWeighted.weight || 0,
+    bestReps: bestWeighted.reps || 0,
+    maxReps: maxReps,
+    hasData: true
+  };
+}
+
+function renderChinsLeaderboard(gender) {
+  var container = document.getElementById('chins-table');
+  container.textContent = '';
+  if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
+
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender; }));
+
+  // Add chin up stats
+  members.forEach(function(m) {
+    var stats = getChinUpStats(m);
+    m._chinWM = stats.bestWM;
+    m._chinWeight = stats.bestWeight;
+    m._chinReps = stats.bestReps;
+    m._chinMaxReps = stats.maxReps;
+    m._chinHasData = stats.hasData;
+  });
+
+  // Filter to members with chin up data
+  members = members.filter(function(m) { return m._chinHasData; });
+  if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members with chin up data.')); return; }
+
+  var headers = [
+    { text: '#', cls: 'num' },
+    { text: 'Name' },
+    { text: 'Weighted 1RM', cls: 'lift', sortKey: '_chinWM' },
+    { text: 'Best Set', cls: 'lift' },
+    { text: 'Max BW Reps', cls: 'lift', sortKey: '_chinMaxReps' }
+  ];
+
+  buildSortableTable('chins-table', headers, members, function(m, i) {
+    var tr = el('tr', { className: 'rank-' + (i + 1) });
+    tr.appendChild(el('td', { className: 'num' }, rankDisplay(i)));
+    var nameCell = el('td');
+    nameCell.appendChild(el('span', { className: 'member-name', onClick: function() { showMember(m.id); } }, m.name));
+    nameCell.appendChild(el('br'));
+    nameCell.appendChild(el('span', { className: 'member-location' }, m.location || ''));
+    tr.appendChild(nameCell);
+    tr.appendChild(el('td', { className: 'lift' }, m._chinWM > 0 ? m._chinWM + ' kg' : '\u2014'));
+    tr.appendChild(el('td', { className: 'lift' }, m._chinWeight > 0 ? m._chinWeight + 'kg x ' + m._chinReps : '\u2014'));
+    tr.appendChild(el('td', { className: 'lift' }, m._chinMaxReps > 0 ? m._chinMaxReps + ' reps' : '\u2014'));
+    return tr;
+  }, '_chinWM');
 }
 
 function renderPfPLeaderboard(gender) {
@@ -1287,6 +1700,275 @@ function renderAgeLeaderboard(gender) {
 }
 
 // ========================
+// ========================
+// GAMIFICATION SYSTEM
+// ========================
+
+// Estimate sessions from unique training dates across all lifts + accessories
+function estimateSessions(member) {
+  var dates = {};
+  function addDates(entries) {
+    if (!entries) return;
+    entries.forEach(function(e) { if (e.date) dates[e.date] = true; });
+  }
+  if (member.lifts) {
+    addDates(member.lifts.bench);
+    addDates(member.lifts.squat);
+    addDates(member.lifts.deadlift);
+  }
+  if (member.accessories) {
+    for (var acc in member.accessories) {
+      addDates(member.accessories[acc]);
+    }
+  }
+  return Object.keys(dates).length;
+}
+
+function getGamifyLevel(sessions) {
+  return Math.floor(sessions / 10);
+}
+
+function getGamifyLevelTitle(level) {
+  if (level >= 30) return 'RTB Legend';
+  if (level >= 20) return 'RTB Veteran';
+  if (level >= 10) return 'RTB Centurion';
+  if (level >= 5) return 'Rising Star';
+  if (level >= 3) return 'Getting Started';
+  if (level >= 1) return 'New Member';
+  return 'Just Joined';
+}
+
+// Rewards config — type: 'sessions' (raw count) or 'level' (gamify level) or 'milestone' (special)
+var GAMIFY_REWARDS = [
+  { id: 'ebook', icon: '\uD83D\uDCD6', name: "Liz's Nutrition eBook", req: 'Complete 3 sessions', type: 'sessions', threshold: 3 },
+  { id: 'referral', icon: '\uD83D\uDCB0', name: '$300 Referral Credits', req: 'Complete 5 sessions', type: 'sessions', threshold: 5 },
+  { id: 'nutrition-trial', icon: '\uD83E\uDD57', name: 'Free Nutrition Trial', req: 'Upgrade to membership', type: 'membership' },
+  { id: 'first-tee', icon: '\uD83D\uDC55', name: 'RTB Tee', req: 'Upgrade to membership', type: 'membership' },
+  { id: 'drink', icon: '\uD83E\uDD64', name: 'Free RTB Drink', req: 'Reach Level 10', type: 'level', threshold: 10 },
+  { id: 'towel', icon: '\uD83E\uDDFC', name: 'RTB Towel', req: 'Reach Level 10', type: 'level', threshold: 10 },
+  { id: 'tee-20', icon: '\uD83C\uDFC6', name: 'RTB Tee (Level 20)', req: 'Reach Level 20', type: 'level', threshold: 20 },
+  { id: 'hoodie', icon: '\uD83E\uDDE5', name: 'RTB Hoodie', req: 'Reach Level 30', type: 'level', threshold: 30 }
+];
+
+function getRewardStatus(reward, sessions, level, member) {
+  if (reward.type === 'sessions') return sessions >= reward.threshold ? 'unlocked' : 'locked';
+  if (reward.type === 'level') return level >= reward.threshold ? 'unlocked' : 'locked';
+  if (reward.type === 'membership') return member && member.membershipStatus === 'active' ? 'unlocked' : 'locked';
+  return 'locked';
+}
+
+// Achievement badges
+function getAchievements(member, bench, squat, deadlift, bw, sessions, sameGender) {
+  var total = bench.weight + squat.weight + deadlift.weight;
+  var achievements = [];
+
+  // Session milestones
+  achievements.push({ icon: '\uD83D\uDD25', name: 'First Session', desc: 'Complete 1 session', earned: sessions >= 1 });
+  achievements.push({ icon: '\u26A1', name: '10 Sessions', desc: 'Complete 10 sessions', earned: sessions >= 10 });
+  achievements.push({ icon: '\uD83D\uDCAA', name: '50 Sessions', desc: 'Complete 50 sessions', earned: sessions >= 50 });
+  achievements.push({ icon: '\uD83C\uDFAF', name: 'Century Club', desc: 'Complete 100 sessions', earned: sessions >= 100 });
+
+  // Strength milestones — gender-appropriate
+  if (member.gender === 'female') {
+    achievements.push({ icon: '\uD83C\uDFCB\uFE0F', name: '50kg Club', desc: 'Any lift over 50kg', earned: bench.weight >= 50 || squat.weight >= 50 || deadlift.weight >= 50 });
+    achievements.push({ icon: '\uD83D\uDE80', name: '100kg Club', desc: 'Any lift over 100kg', earned: bench.weight >= 100 || squat.weight >= 100 || deadlift.weight >= 100 });
+  } else {
+    achievements.push({ icon: '\uD83C\uDFCB\uFE0F', name: '100kg Club', desc: 'Any lift over 100kg', earned: bench.weight >= 100 || squat.weight >= 100 || deadlift.weight >= 100 });
+    achievements.push({ icon: '\uD83D\uDE80', name: '200kg Club', desc: 'Any lift over 200kg', earned: bench.weight >= 200 || squat.weight >= 200 || deadlift.weight >= 200 });
+  }
+
+  // BW-relative achievements — always show, mark unearned if no BW logged
+  if (member.gender === 'female') {
+    achievements.push({ icon: '\u2696\uFE0F', name: '0.6x BW Bench', desc: bw > 0 ? 'Bench 60% of bodyweight' : 'Log bodyweight to track', earned: bw > 0 && bench.weight >= bw * 0.6 });
+    achievements.push({ icon: '\uD83E\uDDB5', name: '0.8x BW Squat', desc: bw > 0 ? 'Squat 80% of bodyweight' : 'Log bodyweight to track', earned: bw > 0 && squat.weight >= bw * 0.8 });
+    achievements.push({ icon: '\uD83D\uDD17', name: '1.5x BW Deadlift', desc: bw > 0 ? 'Deadlift 1.5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && deadlift.weight >= bw * 1.5 });
+    achievements.push({ icon: '\uD83C\uDF1F', name: '3.5x BW Total', desc: bw > 0 ? 'Combined total 3.5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && total >= bw * 3.5 });
+  } else {
+    achievements.push({ icon: '\u2696\uFE0F', name: 'BW Bench', desc: bw > 0 ? 'Bench your bodyweight' : 'Log bodyweight to track', earned: bw > 0 && bench.weight >= bw });
+    achievements.push({ icon: '\uD83E\uDDB5', name: 'BW Squat', desc: bw > 0 ? 'Squat your bodyweight' : 'Log bodyweight to track', earned: bw > 0 && squat.weight >= bw });
+    achievements.push({ icon: '\uD83D\uDD17', name: '2x BW Deadlift', desc: bw > 0 ? 'Deadlift double bodyweight' : 'Log bodyweight to track', earned: bw > 0 && deadlift.weight >= bw * 2 });
+    achievements.push({ icon: '\uD83C\uDF1F', name: '5x BW Total', desc: bw > 0 ? 'Combined total 5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && total >= bw * 5 });
+  }
+
+  // Completionist
+  achievements.push({ icon: '\u2705', name: 'Big Three Logged', desc: 'All 3 main lifts recorded', earned: bench.weight > 0 && squat.weight > 0 && deadlift.weight > 0 });
+
+  // Level achievements
+  var benchLevel = getStrengthLevel(bench.weight, member.gender, 'bench', bw);
+  var squatLevel = getStrengthLevel(squat.weight, member.gender, 'squat', bw);
+  var deadliftLevel = getStrengthLevel(deadlift.weight, member.gender, 'deadlift', bw);
+  achievements.push({ icon: '\uD83D\uDC8E', name: 'Level 10 Lift', desc: 'Any lift at Level 10+', earned: benchLevel.level >= 10 || squatLevel.level >= 10 || deadliftLevel.level >= 10 });
+  achievements.push({ icon: '\uD83D\uDC51', name: 'Hall of Fame', desc: 'Any lift at Level 12', earned: benchLevel.level >= 12 || squatLevel.level >= 12 || deadliftLevel.level >= 12 });
+
+  // Rank-based
+  if (sameGender.length > 0) {
+    var topPct = function(liftKey, myVal) {
+      var higher = sameGender.filter(function(m2) { return m2[liftKey].weight > myVal; }).length;
+      return ((higher + 1) / sameGender.length) * 100;
+    };
+    var bestPct = Math.min(topPct('bench', bench.weight), topPct('squat', squat.weight), topPct('deadlift', deadlift.weight));
+    achievements.push({ icon: '\uD83C\uDFC5', name: 'Top 10%', desc: 'Top 10% in any lift', earned: bestPct <= 10 });
+    achievements.push({ icon: '\uD83E\uDD47', name: 'Top 3', desc: 'Top 3 in any lift', earned: bestPct <= (3 / sameGender.length * 100 + 0.01) });
+  }
+
+  return achievements;
+}
+
+// Challenge cards — dynamic based on current stats
+function getChallenges(member, bench, squat, deadlift, bw, sessions) {
+  var challenges = [];
+
+  // Next session milestone
+  var sessionTargets = [10, 25, 50, 75, 100, 150, 200, 300];
+  for (var i = 0; i < sessionTargets.length; i++) {
+    if (sessions < sessionTargets[i]) {
+      challenges.push({
+        name: sessionTargets[i] + ' Sessions',
+        detail: sessions + ' / ' + sessionTargets[i] + ' sessions completed',
+        current: sessions,
+        target: sessionTargets[i],
+        color: 'var(--red)',
+        completed: false
+      });
+      break;
+    }
+  }
+
+  // BW-relative challenges — gender-appropriate targets
+  if (bw > 0) {
+    var benchTarget = member.gender === 'female' ? Math.round(bw * 0.6) : bw;
+    var benchLabel = member.gender === 'female' ? '0.6x BW Bench' : 'Bench Your Bodyweight';
+    if (bench.weight < benchTarget) {
+      challenges.push({ name: benchLabel, detail: bench.weight + 'kg / ' + benchTarget + 'kg', current: bench.weight, target: benchTarget, color: 'var(--red)', completed: false });
+    } else {
+      challenges.push({ name: benchLabel, detail: bench.weight + 'kg / ' + benchTarget + 'kg', current: benchTarget, target: benchTarget, color: 'var(--green)', completed: true });
+    }
+
+    var squatMult = member.gender === 'female' ? 1.0 : 1.5;
+    var squatTarget = Math.round(bw * squatMult);
+    var squatLabel = member.gender === 'female' ? 'BW Squat' : '1.5x BW Squat';
+    if (squat.weight < squatTarget) {
+      challenges.push({ name: squatLabel, detail: squat.weight + 'kg / ' + squatTarget + 'kg', current: squat.weight, target: squatTarget, color: 'var(--blue)', completed: false });
+    } else {
+      challenges.push({ name: squatLabel, detail: squat.weight + 'kg / ' + squatTarget + 'kg', current: squatTarget, target: squatTarget, color: 'var(--green)', completed: true });
+    }
+
+    var dlMult = member.gender === 'female' ? 1.5 : 2;
+    var dlTarget = Math.round(bw * dlMult);
+    var dlLabel = member.gender === 'female' ? '1.5x BW Deadlift' : '2x BW Deadlift';
+    if (deadlift.weight < dlTarget) {
+      challenges.push({ name: dlLabel, detail: deadlift.weight + 'kg / ' + dlTarget + 'kg', current: deadlift.weight, target: dlTarget, color: 'var(--orange)', completed: false });
+    } else {
+      challenges.push({ name: dlLabel, detail: deadlift.weight + 'kg / ' + dlTarget + 'kg', current: dlTarget, target: dlTarget, color: 'var(--green)', completed: true });
+    }
+  }
+
+  // Total milestones
+  var total = bench.weight + squat.weight + deadlift.weight;
+  var totalTargets = member.gender === 'female' ? [150, 200, 250, 300, 400] : [300, 400, 500, 600, 700];
+  for (var j = 0; j < totalTargets.length; j++) {
+    if (total < totalTargets[j]) {
+      challenges.push({
+        name: totalTargets[j] + 'kg Total',
+        detail: Math.round(total) + 'kg / ' + totalTargets[j] + 'kg combined total',
+        current: total,
+        target: totalTargets[j],
+        color: 'var(--purple)',
+        completed: false
+      });
+      break;
+    }
+  }
+
+  // Hip thrust challenge — intermediate standard from strengthlevel.com
+  var htEntries = [];
+  if (member.accessories) {
+    var htKeys = ['hip_thrust', 'barbell_hip_thrust', 'bb_hip_thrust', 'weighted_barbell_hip_thrust'];
+    htKeys.forEach(function(k) { if (member.accessories[k]) htEntries = htEntries.concat(member.accessories[k]); });
+  }
+  var bestHT = getBest1RM(htEntries);
+  if (bestHT.weight > 0 || (member.accessories && (member.accessories.hip_thrust || member.accessories.barbell_hip_thrust))) {
+    // Intermediate standards by gender/BW
+    var htTarget;
+    if (member.gender === 'female') {
+      if (bw <= 50) htTarget = 84; else if (bw <= 60) htTarget = 92; else if (bw <= 70) htTarget = 98;
+      else if (bw <= 80) htTarget = 104; else if (bw <= 90) htTarget = 110; else htTarget = 115;
+    } else {
+      if (bw <= 60) htTarget = 96; else if (bw <= 70) htTarget = 118; else if (bw <= 80) htTarget = 138;
+      else if (bw <= 90) htTarget = 158; else if (bw <= 100) htTarget = 176; else htTarget = 194;
+    }
+    if (bw <= 0) htTarget = member.gender === 'female' ? 100 : 140; // fallback
+    var htDone = bestHT.weight >= htTarget;
+    challenges.push({
+      name: 'Intermediate Hip Thrust',
+      detail: bestHT.weight + 'kg / ' + htTarget + 'kg',
+      current: bestHT.weight,
+      target: htTarget,
+      color: htDone ? 'var(--green)' : 'var(--purple)',
+      completed: htDone
+    });
+  }
+
+  // First unassisted chin up
+  var chinKeys = ['weighted_chin_ups', 'chin_up', 'chin_up_4s_lowering', 'neutral_grip_chin_up',
+    'weighted_pull_ups', 'rest_pause_pull_up'];
+  var hasChins = member.accessories && chinKeys.some(function(k) {
+    return member.accessories[k] && member.accessories[k].length > 0;
+  });
+  challenges.push({
+    name: '1st Unassisted Chin Up',
+    detail: hasChins ? 'Chin up logged!' : 'Not yet recorded',
+    current: hasChins ? 1 : 0,
+    target: 1,
+    color: hasChins ? 'var(--green)' : 'var(--purple)',
+    completed: !!hasChins
+  });
+
+  return challenges;
+}
+
+// Build progress ring SVG
+function buildProgressRing(pct, color) {
+  var r = 26;
+  var c = 2 * Math.PI * r;
+  var offset = c - (Math.min(pct, 100) / 100) * c;
+  var wrapper = el('div', { className: 'gamify-progress-ring' });
+  var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 64 64');
+  var bgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  bgCircle.setAttribute('cx', '32'); bgCircle.setAttribute('cy', '32'); bgCircle.setAttribute('r', String(r));
+  bgCircle.setAttribute('class', 'ring-bg');
+  svg.appendChild(bgCircle);
+  var fillCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  fillCircle.setAttribute('cx', '32'); fillCircle.setAttribute('cy', '32'); fillCircle.setAttribute('r', String(r));
+  fillCircle.setAttribute('class', 'ring-fill');
+  fillCircle.setAttribute('stroke', color);
+  fillCircle.setAttribute('stroke-dasharray', String(c));
+  fillCircle.setAttribute('stroke-dashoffset', String(offset));
+  svg.appendChild(fillCircle);
+  wrapper.appendChild(svg);
+  var textDiv = el('div', { className: 'gamify-ring-text' }, Math.round(pct) + '%');
+  wrapper.appendChild(textDiv);
+  return wrapper;
+}
+
+// Get rank badge type for a lift
+function getRankBadgeType(rank, total) {
+  var pct = (rank / total) * 100;
+  if (pct <= 5) return 'top5';
+  if (pct <= 10) return 'top10';
+  if (pct <= 25) return 'top25';
+  return null;
+}
+
+function getRankBadgeLabel(type) {
+  if (type === 'top5') return '\uD83E\uDD47 Top 5%';
+  if (type === 'top10') return '\uD83E\uDD48 Top 10%';
+  if (type === 'top25') return '\uD83E\uDD49 Top 25%';
+  return '';
+}
+
+// ========================
 // RENDERING — INDIVIDUAL DASHBOARD (safe DOM)
 // ========================
 function renderMemberDashboard(memberId) {
@@ -1359,7 +2041,40 @@ function renderMemberDashboard(memberId) {
   badge.appendChild(el('div', { className: 'dash-overall-label' }, 'Overall Rating'));
   badge.appendChild(el('div', { className: 'dash-overall-rating', style: { color: overall.color } }, overall.label));
   badge.appendChild(el('div', { className: 'dash-overall-ratio' }, totalBW.toFixed(2) + 'x BW'));
+  // ========================
+  // GAMIFICATION — LEVEL & XP (inside header)
+  // ========================
+  var sessions = estimateSessions(member);
+  var gamifyLevel = getGamifyLevel(sessions);
+  var gamifyTitle = getGamifyLevelTitle(gamifyLevel);
+  var sessionsInLevel = sessions % 10;
+  var xpPct = (sessionsInLevel / 10) * 100;
+
   dashHeader.appendChild(badge);
+
+  // XP section — level circle + title + bar, full width below header
+  var xpWrapper = el('div', { className: 'dash-header-xp' });
+
+  var levelRow = el('div', { style: { display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' } });
+  var levelCircle = el('div', { className: 'gamify-level-circle' });
+  levelCircle.appendChild(el('div', { className: 'gamify-level-num' }, String(gamifyLevel)));
+  levelCircle.appendChild(el('div', { className: 'gamify-level-label' }, 'Level'));
+  levelRow.appendChild(levelCircle);
+
+  var levelText = el('div');
+  levelText.appendChild(el('div', { className: 'gamify-level-title' }, gamifyTitle));
+  levelText.appendChild(el('div', { className: 'gamify-level-sessions', style: { marginBottom: '0', fontSize: '14px' } }, sessions + ' sessions \u2022 ' + sessionsInLevel + '/10 to Level ' + (gamifyLevel + 1)));
+  levelRow.appendChild(levelText);
+  xpWrapper.appendChild(levelRow);
+
+  var xpOuter = el('div', { className: 'gamify-xp-bar-outer' });
+  var xpInner = el('div', { className: 'gamify-xp-bar-inner', style: { width: xpPct + '%' } });
+  xpOuter.appendChild(xpInner);
+  var xpText = el('div', { className: 'gamify-xp-bar-text' }, sessionsInLevel + ' / 10 sessions to next level');
+  xpOuter.appendChild(xpText);
+  xpWrapper.appendChild(xpOuter);
+  dashHeader.appendChild(xpWrapper);
+
   container.appendChild(dashHeader);
 
   // FOCUS BOX
@@ -1367,6 +2082,65 @@ function renderMemberDashboard(memberId) {
   focusBox.appendChild(el('div', { className: 'focus-icon' }, '\uD83C\uDFAF'));
   focusBox.appendChild(el('div', { className: 'focus-text' }, 'Focus: Improve your ' + weakestLift.label + ' \u2014 it is your weakest lift at Level ' + weakestLift.level.level + ' (' + weakestLift.level.name + ')'));
   container.appendChild(focusBox);
+
+  // UNLOCK REWARDS
+  container.appendChild(el('div', { className: 'section-title' }, 'Rewards & Unlocks'));
+  var rewardsGrid = el('div', { className: 'gamify-rewards-grid' });
+  var foundNextUnlock = false;
+  GAMIFY_REWARDS.forEach(function(reward) {
+    var status = getRewardStatus(reward, sessions, gamifyLevel, member);
+    var isNext = false;
+    if (status === 'locked' && !foundNextUnlock && reward.type !== 'milestone') {
+      isNext = true;
+      foundNextUnlock = true;
+    }
+    var cardClass = 'gamify-reward-card ' + (status === 'unlocked' ? 'unlocked' : isNext ? 'next-unlock' : 'locked');
+    var card = el('div', { className: cardClass });
+    card.appendChild(el('div', { className: 'gamify-reward-icon' }, reward.icon));
+    card.appendChild(el('div', { className: 'gamify-reward-name' }, reward.name));
+    card.appendChild(el('div', { className: 'gamify-reward-req' }, reward.req));
+    var statusClass = status === 'unlocked' ? 'unlocked' : isNext ? 'next' : 'locked';
+    var statusText = status === 'unlocked' ? '\u2713 Unlocked' : isNext ? 'Next Up' : '\uD83D\uDD12 Locked';
+    card.appendChild(el('div', { className: 'gamify-reward-status ' + statusClass }, statusText));
+    rewardsGrid.appendChild(card);
+  });
+  container.appendChild(rewardsGrid);
+
+  // CHALLENGE CARDS
+  var challenges = getChallenges(member, bench, squat, deadlift, bw, sessions);
+  if (challenges.length > 0) {
+    container.appendChild(el('div', { className: 'section-title' }, 'Active Challenges'));
+    var challengesGrid = el('div', { className: 'gamify-challenges-grid' });
+    challenges.forEach(function(ch) {
+      var pct = ch.target > 0 ? (ch.current / ch.target) * 100 : 0;
+      var card = el('div', { className: 'gamify-challenge-card' + (ch.completed ? ' completed' : '') });
+      card.appendChild(buildProgressRing(pct, ch.completed ? 'var(--green)' : ch.color));
+      var info = el('div', { className: 'gamify-challenge-info' });
+      info.appendChild(el('div', { className: 'gamify-challenge-name' }, ch.name));
+      info.appendChild(el('div', { className: 'gamify-challenge-detail' }, ch.detail));
+      card.appendChild(info);
+      if (ch.completed) card.appendChild(el('div', { className: 'gamify-challenge-check' }, '\u2713'));
+      challengesGrid.appendChild(card);
+    });
+    container.appendChild(challengesGrid);
+  }
+
+  // ACHIEVEMENT BADGES
+  var achievements = getAchievements(member, bench, squat, deadlift, bw, sessions, sameGender);
+  container.appendChild(el('div', { className: 'section-title' }, 'Achievements'));
+  var badgesGrid = el('div', { className: 'gamify-badges-grid' });
+  // Sort: earned first
+  achievements.sort(function(a, b) { return (b.earned ? 1 : 0) - (a.earned ? 1 : 0); });
+  achievements.forEach(function(ach) {
+    var badge = el('div', { className: 'gamify-badge ' + (ach.earned ? 'earned' : 'unearned') });
+    badge.appendChild(el('div', { className: 'gamify-badge-icon' }, ach.icon));
+    var bInfo = el('div', { className: 'gamify-badge-info' });
+    bInfo.appendChild(el('div', { className: 'gamify-badge-name' }, ach.name));
+    bInfo.appendChild(el('div', { className: 'gamify-badge-desc' }, ach.desc));
+    badge.appendChild(bInfo);
+    badgesGrid.appendChild(badge);
+  });
+  container.appendChild(badgesGrid);
 
   // SUMMARY ROW
   var summaryRow = el('div', { className: 'summary-row' });
@@ -1444,6 +2218,14 @@ function renderMemberDashboard(memberId) {
       card.appendChild(nextDiv);
     } else {
       card.appendChild(el('div', { className: 'stat-next-level', style: { color: 'var(--gold)' } }, 'Maximum level reached!'));
+    }
+
+    // RANK BADGES (Top 5%/10%/25%)
+    var rankType = getRankBadgeType(liftRanks[l.key], totalCount);
+    if (rankType) {
+      var rankBadges = el('div', { className: 'gamify-rank-badges' });
+      rankBadges.appendChild(el('div', { className: 'gamify-rank-badge ' + rankType }, getRankBadgeLabel(rankType)));
+      card.appendChild(rankBadges);
     }
 
     statGrid.appendChild(card);
