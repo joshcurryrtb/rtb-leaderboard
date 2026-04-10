@@ -2083,25 +2083,15 @@ function renderMemberDashboard(memberId) {
   focusBox.appendChild(el('div', { className: 'focus-text' }, 'Focus: Improve your ' + weakestLift.label + ' \u2014 it is your weakest lift at Level ' + weakestLift.level.level + ' (' + weakestLift.level.name + ')'));
   container.appendChild(focusBox);
 
-  // UNLOCK REWARDS
+  // UNLOCK REWARDS — Coming Soon
   container.appendChild(el('div', { className: 'section-title' }, 'Rewards & Unlocks'));
   var rewardsGrid = el('div', { className: 'gamify-rewards-grid' });
-  var foundNextUnlock = false;
   GAMIFY_REWARDS.forEach(function(reward) {
-    var status = getRewardStatus(reward, sessions, gamifyLevel, member);
-    var isNext = false;
-    if (status === 'locked' && !foundNextUnlock && reward.type !== 'milestone') {
-      isNext = true;
-      foundNextUnlock = true;
-    }
-    var cardClass = 'gamify-reward-card ' + (status === 'unlocked' ? 'unlocked' : isNext ? 'next-unlock' : 'locked');
-    var card = el('div', { className: cardClass });
+    var card = el('div', { className: 'gamify-reward-card locked' });
     card.appendChild(el('div', { className: 'gamify-reward-icon' }, reward.icon));
     card.appendChild(el('div', { className: 'gamify-reward-name' }, reward.name));
     card.appendChild(el('div', { className: 'gamify-reward-req' }, reward.req));
-    var statusClass = status === 'unlocked' ? 'unlocked' : isNext ? 'next' : 'locked';
-    var statusText = status === 'unlocked' ? '\u2713 Unlocked' : isNext ? 'Next Up' : '\uD83D\uDD12 Locked';
-    card.appendChild(el('div', { className: 'gamify-reward-status ' + statusClass }, statusText));
+    card.appendChild(el('div', { className: 'gamify-reward-status locked' }, 'Coming Soon'));
     rewardsGrid.appendChild(card);
   });
   container.appendChild(rewardsGrid);
