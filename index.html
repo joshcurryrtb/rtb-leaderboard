@@ -1510,7 +1510,7 @@ function renderRawLeaderboard(gender) {
   var container = document.getElementById('raw-table');
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded. Click Import Data to get started.')); return; }
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender; }));
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard; }));
   if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members found.')); return; }
   // Add sortable fields + chin up reps
   members.forEach(function(m) {
@@ -1579,7 +1579,7 @@ function renderChinsLeaderboard(gender) {
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
 
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender; }));
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard; }));
 
   // Add chin up stats
   members.forEach(function(m) {
@@ -1622,7 +1622,7 @@ function renderPfPLeaderboard(gender) {
   var container = document.getElementById('pfp-table');
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.bodyweight > 0; }));
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.bodyweight > 0 && !m.hideFromLeaderboard; }));
   if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members with bodyweight data found.')); return; }
   members.forEach(function(m) { m._bw = m.bodyweight; m._total = m.total; m._totalBW = m.totalBW; });
 
@@ -1655,7 +1655,7 @@ function renderAgeLeaderboard(gender) {
   var container = document.getElementById('age-table');
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.dob; }));
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.dob && !m.hideFromLeaderboard; }));
   if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members with DOB data found.')); return; }
   var groups = {};
   members.forEach(function(m) {
