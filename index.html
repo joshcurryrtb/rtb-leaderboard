@@ -1540,7 +1540,7 @@ function renderRawLeaderboard(gender) {
     tr.appendChild(el('td', { className: 'lift' }, m.bench.weight + ' kg'));
     tr.appendChild(el('td', { className: 'lift' }, m.squat.weight + ' kg'));
     tr.appendChild(el('td', { className: 'lift' }, m.deadlift.weight + ' kg'));
-    tr.appendChild(el('td', { className: 'total' }, m.total + ' kg'));
+    tr.appendChild(el('td', { className: 'total' }, Math.round(m.total * 10) / 10 + ' kg'));
     tr.appendChild(el('td', { className: 'lift' }, m._chinReps > 0 ? m._chinReps + ' reps' : '\u2014'));
     return tr;
   }, '_total');
@@ -1643,7 +1643,7 @@ function renderPfPLeaderboard(gender) {
     nameCell.appendChild(el('span', { className: 'member-location' }, m.location || ''));
     tr.appendChild(nameCell);
     tr.appendChild(el('td', { className: 'lift' }, m.bodyweight + ' kg'));
-    tr.appendChild(el('td', { className: 'lift' }, m.total + ' kg'));
+    tr.appendChild(el('td', { className: 'lift' }, Math.round(m.total * 10) / 10 + ' kg'));
     var ratioCell = el('td', { className: 'lift' });
     ratioCell.appendChild(el('span', { className: 'ratio-val' }, m.totalBW.toFixed(2) + 'x'));
     tr.appendChild(ratioCell);
@@ -1693,7 +1693,7 @@ function renderAgeLeaderboard(gender) {
       tr.appendChild(el('td', { className: 'lift' }, m.bench.weight + ' kg'));
       tr.appendChild(el('td', { className: 'lift' }, m.squat.weight + ' kg'));
       tr.appendChild(el('td', { className: 'lift' }, m.deadlift.weight + ' kg'));
-      tr.appendChild(el('td', { className: 'total' }, m.total + ' kg'));
+      tr.appendChild(el('td', { className: 'total' }, Math.round(m.total * 10) / 10 + ' kg'));
       return tr;
     }, '_total');
   });
