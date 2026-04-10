@@ -2086,7 +2086,7 @@ function renderMemberDashboard(memberId) {
   // UNLOCK REWARDS — Coming Soon (with overlay)
   container.appendChild(el('div', { className: 'section-title' }, 'Rewards & Unlocks'));
   var rewardsWrapper = el('div', { style: { position: 'relative' } });
-  var rewardsGrid = el('div', { className: 'gamify-rewards-grid', style: { filter: 'blur(3px)', opacity: '0.4', pointerEvents: 'none' } });
+  var rewardsGrid = el('div', { className: 'gamify-rewards-grid', style: { filter: 'blur(1.5px)', opacity: '0.55', pointerEvents: 'none' } });
   GAMIFY_REWARDS.forEach(function(reward) {
     var card = el('div', { className: 'gamify-reward-card locked' });
     card.appendChild(el('div', { className: 'gamify-reward-icon' }, reward.icon));
