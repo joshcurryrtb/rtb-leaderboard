@@ -161,6 +161,27 @@
   .gender-btn:first-child { border-radius: 4px 0 0 4px; }
   .gender-btn:last-child { border-radius: 0 4px 4px 0; }
   .gender-btn.active { background: var(--red); color: white; border-color: var(--red); }
+  .location-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .location-btn {
+    padding: 8px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: var(--surface);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .location-btn:first-child { border-radius: 4px 0 0 4px; }
+  .location-btn:last-child { border-radius: 0 4px 4px 0; }
+  .location-btn.active { background: var(--surface2); color: var(--text); border-color: var(--text-muted); }
 
   /* LEADERBOARD TABLE */
   .leaderboard-table {
@@ -1186,18 +1207,21 @@
 
   <!-- RAW STRENGTH -->
   <div class="section active" id="section-raw">
+    <div class="location-toggle" id="locationToggle-raw"></div>
     <div class="gender-toggle" id="genderToggle-raw"></div>
     <div id="raw-table"></div>
   </div>
 
   <!-- POUND FOR POUND -->
   <div class="section" id="section-pfp">
+    <div class="location-toggle" id="locationToggle-pfp"></div>
     <div class="gender-toggle" id="genderToggle-pfp"></div>
     <div id="pfp-table"></div>
   </div>
 
   <!-- BY AGE GROUP -->
   <div class="section" id="section-age">
+    <div class="location-toggle" id="locationToggle-age"></div>
     <div class="gender-toggle" id="genderToggle-age"></div>
     <div id="age-table"></div>
   </div>
@@ -1254,6 +1278,12 @@
 // ========================
 let DATA = null;
 let currentGender = { raw: 'male', pfp: 'male', age: 'male', chins: 'male' };
+let currentLocation = { raw: 'all', pfp: 'all', age: 'all' };
+
+function matchesLocation(m, loc) {
+  if (loc === 'all') return true;
+  return m.hapanaLocation === loc;
+}
 let selectedMemberId = null;
 
 // Embedded strength standards
@@ -1510,7 +1540,8 @@ function renderRawLeaderboard(gender) {
   var container = document.getElementById('raw-table');
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded. Click Import Data to get started.')); return; }
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard; }));
+  var loc = currentLocation.raw;
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard && matchesLocation(m, loc); }));
   if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members found.')); return; }
   // Add sortable fields + chin up reps
   members.forEach(function(m) {
@@ -1580,6 +1611,7 @@ function renderChinsLeaderboard(gender) {
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
 
   var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard; }));
+  // chins table not location-filtered (no standalone page anymore)
 
   // Add chin up stats
   members.forEach(function(m) {
@@ -1622,7 +1654,8 @@ function renderPfPLeaderboard(gender) {
   var container = document.getElementById('pfp-table');
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.bodyweight > 0 && !m.hideFromLeaderboard; }));
+  var loc = currentLocation.pfp;
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.bodyweight > 0 && !m.hideFromLeaderboard && matchesLocation(m, loc); }));
   if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members with bodyweight data found.')); return; }
   members.forEach(function(m) { m._bw = m.bodyweight; m._total = m.total; m._totalBW = m.totalBW; });
 
@@ -1655,7 +1688,8 @@ function renderAgeLeaderboard(gender) {
   var container = document.getElementById('age-table');
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.dob && !m.hideFromLeaderboard; }));
+  var loc = currentLocation.age;
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.dob && !m.hideFromLeaderboard && matchesLocation(m, loc); }));
   if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members with DOB data found.')); return; }
   var groups = {};
   members.forEach(function(m) {
@@ -2340,6 +2374,29 @@ function initGenderToggles() {
   });
 }
 
+function initLocationToggles() {
+  var locations = [
+    { key: 'all', label: 'All' },
+    { key: 'chelsea', label: 'Chelsea Heights' },
+    { key: 'windsor', label: 'Windsor' }
+  ];
+  ['raw', 'pfp', 'age'].forEach(function(section) {
+    var container = document.getElementById('locationToggle-' + section);
+    locations.forEach(function(loc, i) {
+      var btn = el('button', { className: 'location-btn' + (i === 0 ? ' active' : '') }, loc.label);
+      btn.addEventListener('click', function() {
+        currentLocation[section] = loc.key;
+        container.querySelectorAll('.location-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        if (section === 'raw') renderRawLeaderboard(currentGender.raw);
+        else if (section === 'pfp') renderPfPLeaderboard(currentGender.pfp);
+        else if (section === 'age') renderAgeLeaderboard(currentGender.age);
+      });
+      container.appendChild(btn);
+    });
+  });
+}
+
 function showMember(id) {
   selectedMemberId = id;
   var navContainer = document.getElementById('navTabs');
@@ -2530,6 +2587,7 @@ function loadData(data) {
 // ========================
 (function init() {
   initNavTabs();
+  initLocationToggles();
   initGenderToggles();
   initSearch();
   initModal();
