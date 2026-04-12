@@ -1281,6 +1281,7 @@ let currentGender = { raw: 'male', pfp: 'male', age: 'male', chins: 'male' };
 let currentLocation = { raw: 'all', pfp: 'all', age: 'all' };
 
 function matchesLocation(m, loc) {
+  if (!m.location && !m.hapanaLocation) return false;
   if (loc === 'all') return true;
   return m.hapanaLocation === loc;
 }
@@ -1610,7 +1611,7 @@ function renderChinsLeaderboard(gender) {
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
 
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard; }));
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard && (m.location || m.hapanaLocation); }));
   // chins table not location-filtered (no standalone page anymore)
 
   // Add chin up stats
