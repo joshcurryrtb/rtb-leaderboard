@@ -1283,7 +1283,13 @@ let currentLocation = { raw: 'all', pfp: 'all', age: 'all' };
 function matchesLocation(m, loc) {
   if (!m.location && !m.hapanaLocation) return false;
   if (loc === 'all') return true;
-  return m.hapanaLocation === loc;
+  var mLoc = m.hapanaLocation || '';
+  if (!mLoc && m.location) {
+    var l = m.location.toLowerCase();
+    if (l === 'chelsea heights' || l === 'chelsea') mLoc = 'chelsea';
+    else if (l === 'windsor') mLoc = 'windsor';
+  }
+  return mLoc === loc;
 }
 let selectedMemberId = null;
 
