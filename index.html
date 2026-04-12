@@ -1281,14 +1281,14 @@ let currentGender = { raw: 'male', pfp: 'male', age: 'male', chins: 'male' };
 let currentLocation = { raw: 'all', pfp: 'all', age: 'all' };
 
 function matchesLocation(m, loc) {
-  if (!m.location && !m.hapanaLocation) return false;
-  if (loc === 'all') return true;
-  var mLoc = m.hapanaLocation || '';
+  var mLoc = (m.hapanaLocation && m.hapanaLocation !== 'unknown') ? m.hapanaLocation : '';
   if (!mLoc && m.location) {
     var l = m.location.toLowerCase();
     if (l === 'chelsea heights' || l === 'chelsea') mLoc = 'chelsea';
     else if (l === 'windsor') mLoc = 'windsor';
   }
+  if (!mLoc) return false;
+  if (loc === 'all') return true;
   return mLoc === loc;
 }
 let selectedMemberId = null;
@@ -1617,7 +1617,7 @@ function renderChinsLeaderboard(gender) {
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
 
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard && (m.location || m.hapanaLocation); }));
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard && matchesLocation(m, 'all'); }));
   // chins table not location-filtered (no standalone page anymore)
 
   // Add chin up stats
