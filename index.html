@@ -1280,6 +1280,20 @@ let DATA = null;
 let currentGender = { raw: 'male', pfp: 'male', age: 'male', chins: 'male' };
 let currentLocation = { raw: 'all', pfp: 'all', age: 'all' };
 
+function hasRecentData(m) {
+  var sixMonthsAgo = new Date();
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+  var lifts = m.lifts || {};
+  for (var key in lifts) {
+    var entries = lifts[key];
+    if (entries && entries.length > 0) {
+      var latest = entries[entries.length - 1];
+      if (latest.date && new Date(latest.date) >= sixMonthsAgo) return true;
+    }
+  }
+  return false;
+}
+
 function matchesLocation(m, loc) {
   var mLoc = (m.hapanaLocation && m.hapanaLocation !== 'unknown') ? m.hapanaLocation : '';
   if (!mLoc && m.location) {
@@ -1287,8 +1301,8 @@ function matchesLocation(m, loc) {
     if (l === 'chelsea heights' || l === 'chelsea') mLoc = 'chelsea';
     else if (l === 'windsor') mLoc = 'windsor';
   }
+  if (loc === 'all') return mLoc || hasRecentData(m);
   if (!mLoc) return false;
-  if (loc === 'all') return true;
   return mLoc === loc;
 }
 let selectedMemberId = null;
