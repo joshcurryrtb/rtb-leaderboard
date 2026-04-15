@@ -1295,6 +1295,7 @@ function hasRecentData(m) {
 }
 
 function matchesLocation(m, loc) {
+  if (m.location && m.location.toLowerCase() === 'both') return true;
   var mLoc = (m.hapanaLocation && m.hapanaLocation !== 'unknown') ? m.hapanaLocation : '';
   if (!mLoc && m.location) {
     var l = m.location.toLowerCase();
