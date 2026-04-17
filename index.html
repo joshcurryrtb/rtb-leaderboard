@@ -1282,6 +1282,7 @@ let currentLocation = { raw: 'all', pfp: 'all', age: 'all' };
 
 function matchesLocation(m, loc) {
   if (loc === 'all') return true;
+  if (m.hapanaLocation === 'both') return true;
   return m.hapanaLocation === loc;
 }
 let selectedMemberId = null;
@@ -1657,12 +1658,14 @@ function renderPfPLeaderboard(gender) {
   var loc = currentLocation.pfp;
   var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && m.bodyweight > 0 && !m.hideFromLeaderboard && matchesLocation(m, loc); }));
   if (members.length === 0) { container.appendChild(buildEmptyState('No ' + gender + ' members with bodyweight data found.')); return; }
-  members.forEach(function(m) { m._bw = m.bodyweight; m._total = m.total; m._totalBW = m.totalBW; });
+  members.forEach(function(m) { m._bench = m.bench.weight; m._squat = m.squat.weight; m._deadlift = m.deadlift.weight; m._total = m.total; m._totalBW = m.totalBW; });
 
   var headers = [
     { text: '#', cls: 'num' },
     { text: 'Name' },
-    { text: 'BW', cls: 'lift', sortKey: '_bw' },
+    { text: 'Bench', cls: 'lift', sortKey: '_bench' },
+    { text: 'Squat', cls: 'lift', sortKey: '_squat' },
+    { text: 'Deadlift', cls: 'lift', sortKey: '_deadlift' },
     { text: 'Total', cls: 'lift', sortKey: '_total' },
     { text: 'Total / BW', cls: 'lift', sortKey: '_totalBW' }
   ];
@@ -1675,7 +1678,9 @@ function renderPfPLeaderboard(gender) {
     nameCell.appendChild(el('br'));
     nameCell.appendChild(el('span', { className: 'member-location' }, m.location || ''));
     tr.appendChild(nameCell);
-    tr.appendChild(el('td', { className: 'lift' }, m.bodyweight + ' kg'));
+    tr.appendChild(el('td', { className: 'lift' }, m.bench.weight + ' kg'));
+    tr.appendChild(el('td', { className: 'lift' }, m.squat.weight + ' kg'));
+    tr.appendChild(el('td', { className: 'lift' }, m.deadlift.weight + ' kg'));
     tr.appendChild(el('td', { className: 'lift' }, Math.round(m.total * 10) / 10 + ' kg'));
     var ratioCell = el('td', { className: 'lift' });
     ratioCell.appendChild(el('span', { className: 'ratio-val' }, m.totalBW.toFixed(2) + 'x'));
@@ -2066,7 +2071,6 @@ function renderMemberDashboard(memberId) {
   var metaParts = [];
   if (member.location) metaParts.push(member.location);
   if (age) metaParts.push('Age ' + age);
-  if (bw) metaParts.push(bw + ' kg');
   if (member.joinDate) metaParts.push('Member since ' + formatDate(member.joinDate));
   leftDiv.appendChild(el('div', { className: 'dash-meta' }, metaParts.join(' \u00B7 ')));
   dashHeader.appendChild(leftDiv);
@@ -2074,7 +2078,7 @@ function renderMemberDashboard(memberId) {
   var badge = el('div', { className: 'dash-overall-badge', style: { borderColor: overall.color } });
   badge.appendChild(el('div', { className: 'dash-overall-label' }, 'Overall Rating'));
   badge.appendChild(el('div', { className: 'dash-overall-rating', style: { color: overall.color } }, overall.label));
-  badge.appendChild(el('div', { className: 'dash-overall-ratio' }, totalBW.toFixed(2) + 'x BW'));
+  badge.appendChild(el('div', { className: 'dash-overall-ratio' }, totalBW.toFixed(2) + 'x'));
   // ========================
   // GAMIFICATION — LEVEL & XP (inside header)
   // ========================
