@@ -1280,31 +1280,9 @@ let DATA = null;
 let currentGender = { raw: 'male', pfp: 'male', age: 'male', chins: 'male' };
 let currentLocation = { raw: 'all', pfp: 'all', age: 'all' };
 
-function hasRecentData(m) {
-  var sixMonthsAgo = new Date();
-  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-  var lifts = m.lifts || {};
-  for (var key in lifts) {
-    var entries = lifts[key];
-    if (entries && entries.length > 0) {
-      var latest = entries[entries.length - 1];
-      if (latest.date && new Date(latest.date) >= sixMonthsAgo) return true;
-    }
-  }
-  return false;
-}
-
 function matchesLocation(m, loc) {
-  if (m.location && m.location.toLowerCase() === 'both') return true;
-  var mLoc = (m.hapanaLocation && m.hapanaLocation !== 'unknown') ? m.hapanaLocation : '';
-  if (!mLoc && m.location) {
-    var l = m.location.toLowerCase();
-    if (l === 'chelsea heights' || l === 'chelsea') mLoc = 'chelsea';
-    else if (l === 'windsor') mLoc = 'windsor';
-  }
-  if (loc === 'all') return mLoc || hasRecentData(m);
-  if (!mLoc) return false;
-  return mLoc === loc;
+  if (loc === 'all') return true;
+  return m.hapanaLocation === loc;
 }
 let selectedMemberId = null;
 
@@ -1632,7 +1610,7 @@ function renderChinsLeaderboard(gender) {
   container.textContent = '';
   if (!DATA) { container.appendChild(buildEmptyState('No data loaded.')); return; }
 
-  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard && matchesLocation(m, 'all'); }));
+  var members = enrichMembers(DATA.members.filter(function(m) { return m.gender === gender && !m.hideFromLeaderboard; }));
   // chins table not location-filtered (no standalone page anymore)
 
   // Add chin up stats
@@ -1684,6 +1662,7 @@ function renderPfPLeaderboard(gender) {
   var headers = [
     { text: '#', cls: 'num' },
     { text: 'Name' },
+    { text: 'BW', cls: 'lift', sortKey: '_bw' },
     { text: 'Total', cls: 'lift', sortKey: '_total' },
     { text: 'Total / BW', cls: 'lift', sortKey: '_totalBW' }
   ];
@@ -1696,6 +1675,7 @@ function renderPfPLeaderboard(gender) {
     nameCell.appendChild(el('br'));
     nameCell.appendChild(el('span', { className: 'member-location' }, m.location || ''));
     tr.appendChild(nameCell);
+    tr.appendChild(el('td', { className: 'lift' }, m.bodyweight + ' kg'));
     tr.appendChild(el('td', { className: 'lift' }, Math.round(m.total * 10) / 10 + ' kg'));
     var ratioCell = el('td', { className: 'lift' });
     ratioCell.appendChild(el('span', { className: 'ratio-val' }, m.totalBW.toFixed(2) + 'x'));
@@ -2086,7 +2066,7 @@ function renderMemberDashboard(memberId) {
   var metaParts = [];
   if (member.location) metaParts.push(member.location);
   if (age) metaParts.push('Age ' + age);
-  // bodyweight hidden from public display
+  if (bw) metaParts.push(bw + ' kg');
   if (member.joinDate) metaParts.push('Member since ' + formatDate(member.joinDate));
   leftDiv.appendChild(el('div', { className: 'dash-meta' }, metaParts.join(' \u00B7 ')));
   dashHeader.appendChild(leftDiv);
