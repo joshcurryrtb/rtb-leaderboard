@@ -530,6 +530,146 @@
     margin-top: 4px;
   }
 
+  /* CHALLENGE LEVELS */
+  .challenge-levels { margin-bottom: 30px; }
+  .challenge-level-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .challenge-level-card.completed {
+    border-color: var(--green);
+  }
+  .challenge-level-card.current {
+    border-color: #000;
+    border-width: 2px;
+  }
+  .challenge-level-card.locked {
+    opacity: 0.45;
+  }
+  .challenge-level-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .challenge-level-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 20px; font-weight: 400;
+    flex-shrink: 0;
+  }
+  .challenge-level-card.completed .challenge-level-num {
+    background: var(--green); color: #fff;
+  }
+  .challenge-level-card.current .challenge-level-num {
+    background: #000; color: #fff;
+  }
+  .challenge-level-info { flex: 1; }
+  .challenge-level-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 20px; font-weight: 400;
+    text-transform: uppercase;
+  }
+  .challenge-level-progress-text {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 12px; color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .challenge-level-status {
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 4px 14px; border-radius: 300px;
+  }
+  .challenge-level-card.completed .challenge-level-status {
+    background: rgba(22,163,74,0.1); color: var(--green);
+  }
+  .challenge-level-card.current .challenge-level-status {
+    background: rgba(0,0,0,0.06); color: #000;
+  }
+  .challenge-level-card.locked .challenge-level-status {
+    background: var(--surface2); color: var(--text-muted);
+  }
+  .challenge-reqs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+  }
+  .challenge-req {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 13px;
+  }
+  .challenge-req-icon {
+    font-size: 16px; flex-shrink: 0; width: 20px; text-align: center;
+  }
+  .challenge-req.done .challenge-req-icon { color: var(--green); }
+  .challenge-req.pending .challenge-req-icon { color: var(--text-muted); }
+  .challenge-req-text { flex: 1; }
+  .challenge-req.done { color: var(--green); }
+  .challenge-req.pending { color: var(--text-muted); }
+
+  /* COLLAPSIBLE ACHIEVEMENT CATEGORIES */
+  .achieve-category {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .achieve-category-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .achieve-category-header:hover { background: var(--surface2); }
+  .achieve-category-left {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .achieve-category-icon { font-size: 22px; }
+  .achieve-category-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 18px; font-weight: 400;
+    text-transform: uppercase;
+  }
+  .achieve-category-count {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 12px; font-weight: 600;
+    padding: 3px 12px; border-radius: 300px;
+    background: var(--surface2); color: var(--text-muted);
+  }
+  .achieve-category-count.all-done {
+    background: rgba(22,163,74,0.1); color: var(--green);
+  }
+  .achieve-category-arrow {
+    font-size: 14px; color: var(--text-muted);
+    transition: transform 0.2s;
+  }
+  .achieve-category.open .achieve-category-arrow { transform: rotate(180deg); }
+  .achieve-category-body {
+    display: none;
+    padding: 0 20px 16px;
+  }
+  .achieve-category.open .achieve-category-body { display: block; }
+
+  @media (max-width: 768px) {
+    .challenge-reqs { grid-template-columns: 1fr; }
+    .challenge-level-header { gap: 12px; }
+    .challenge-level-name { font-size: 17px; }
+  }
+
   /* ACCESSORIES TABLE */
   .accessories-section { margin-bottom: 30px; }
   .section-title {
@@ -1376,6 +1516,141 @@
     border-radius: 50%;
   }
 
+  /* 21 DAY TRIAL DASHBOARD */
+  .trial-dash { padding: 0; }
+  .trial-hero {
+    background: #000;
+    color: #fff;
+    padding: 40px 30px;
+    text-align: center;
+    margin: -30px -40px 30px;
+  }
+  .trial-hero-label {
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 3px;
+    color: #999; margin-bottom: 8px;
+  }
+  .trial-hero-day {
+    font-family: 'Anton', sans-serif;
+    font-size: 64px; font-weight: 400;
+    line-height: 1;
+  }
+  .trial-hero-day span { font-size: 28px; color: #999; }
+  .trial-hero-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px; font-weight: 400;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+  .trial-progress-bar {
+    width: 100%; max-width: 400px;
+    height: 8px; background: #333;
+    border-radius: 300px; margin: 20px auto 8px;
+    overflow: hidden;
+  }
+  .trial-progress-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 300px;
+    transition: width 0.5s;
+  }
+  .trial-progress-text {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 13px; color: #999;
+  }
+
+  .trial-sessions-grid {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .trial-session-dot {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 12px; font-weight: 600;
+  }
+  .trial-session-dot.done { background: #000; color: #fff; }
+  .trial-session-dot.upcoming { background: var(--surface2); color: var(--text-muted); border: 1px dashed var(--border); }
+
+  .trial-checklist {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px; margin-bottom: 30px;
+  }
+  .trial-check-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 15px;
+  }
+  .trial-check-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .trial-check-item.done .trial-check-icon {
+    background: var(--green); color: #fff;
+  }
+  .trial-check-item.pending .trial-check-icon {
+    background: var(--surface2); color: var(--text-muted);
+    border: 2px solid var(--border);
+  }
+  .trial-check-item.done { color: var(--text); }
+  .trial-check-item.pending { color: var(--text-muted); }
+
+  .trial-quote {
+    background: #000; color: #fff;
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .trial-quote-text {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px; font-weight: 400;
+    text-transform: uppercase;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .trial-quote-day {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 12px; color: #999;
+    text-transform: uppercase; letter-spacing: 2px;
+  }
+
+  .trial-cta {
+    background: var(--surface);
+    border: 2px solid #000;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .trial-cta-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 24px; font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .trial-cta-text {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 14px; color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .trial-hero { padding: 30px 20px; margin: -16px -16px 20px; }
+    .trial-hero-day { font-size: 48px; }
+    .trial-hero-name { font-size: 22px; }
+    .trial-quote-text { font-size: 18px; }
+  }
+
   @media (max-width: 480px) {
     .login-card { padding: 40px 24px; }
     .login-title { font-size: 28px; }
@@ -2018,174 +2293,236 @@ function getRewardStatus(reward, sessions, level, member) {
   return 'locked';
 }
 
-// Achievement badges
-function getAchievements(member, bench, squat, deadlift, bw, sessions, sameGender) {
+// Achievement badges — categorized
+function getCategorizedAchievements(member, bench, squat, deadlift, bw, sessions, sameGender) {
   var total = bench.weight + squat.weight + deadlift.weight;
-  var achievements = [];
-
-  // Session milestones
-  achievements.push({ icon: '\uD83D\uDD25', name: 'First Session', desc: 'Complete 1 session', earned: sessions >= 1 });
-  achievements.push({ icon: '\u26A1', name: '10 Sessions', desc: 'Complete 10 sessions', earned: sessions >= 10 });
-  achievements.push({ icon: '\uD83D\uDCAA', name: '50 Sessions', desc: 'Complete 50 sessions', earned: sessions >= 50 });
-  achievements.push({ icon: '\uD83C\uDFAF', name: 'Century Club', desc: 'Complete 100 sessions', earned: sessions >= 100 });
-
-  // Strength milestones — gender-appropriate
-  if (member.gender === 'female') {
-    achievements.push({ icon: '\uD83C\uDFCB\uFE0F', name: '50kg Club', desc: 'Any lift over 50kg', earned: bench.weight >= 50 || squat.weight >= 50 || deadlift.weight >= 50 });
-    achievements.push({ icon: '\uD83D\uDE80', name: '100kg Club', desc: 'Any lift over 100kg', earned: bench.weight >= 100 || squat.weight >= 100 || deadlift.weight >= 100 });
-  } else {
-    achievements.push({ icon: '\uD83C\uDFCB\uFE0F', name: '100kg Club', desc: 'Any lift over 100kg', earned: bench.weight >= 100 || squat.weight >= 100 || deadlift.weight >= 100 });
-    achievements.push({ icon: '\uD83D\uDE80', name: '200kg Club', desc: 'Any lift over 200kg', earned: bench.weight >= 200 || squat.weight >= 200 || deadlift.weight >= 200 });
-  }
-
-  // BW-relative achievements — always show, mark unearned if no BW logged
-  if (member.gender === 'female') {
-    achievements.push({ icon: '\u2696\uFE0F', name: '0.6x BW Bench', desc: bw > 0 ? 'Bench 60% of bodyweight' : 'Log bodyweight to track', earned: bw > 0 && bench.weight >= bw * 0.6 });
-    achievements.push({ icon: '\uD83E\uDDB5', name: '0.8x BW Squat', desc: bw > 0 ? 'Squat 80% of bodyweight' : 'Log bodyweight to track', earned: bw > 0 && squat.weight >= bw * 0.8 });
-    achievements.push({ icon: '\uD83D\uDD17', name: '1.5x BW Deadlift', desc: bw > 0 ? 'Deadlift 1.5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && deadlift.weight >= bw * 1.5 });
-    achievements.push({ icon: '\uD83C\uDF1F', name: '3.5x BW Total', desc: bw > 0 ? 'Combined total 3.5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && total >= bw * 3.5 });
-  } else {
-    achievements.push({ icon: '\u2696\uFE0F', name: 'BW Bench', desc: bw > 0 ? 'Bench your bodyweight' : 'Log bodyweight to track', earned: bw > 0 && bench.weight >= bw });
-    achievements.push({ icon: '\uD83E\uDDB5', name: 'BW Squat', desc: bw > 0 ? 'Squat your bodyweight' : 'Log bodyweight to track', earned: bw > 0 && squat.weight >= bw });
-    achievements.push({ icon: '\uD83D\uDD17', name: '2x BW Deadlift', desc: bw > 0 ? 'Deadlift double bodyweight' : 'Log bodyweight to track', earned: bw > 0 && deadlift.weight >= bw * 2 });
-    achievements.push({ icon: '\uD83C\uDF1F', name: '5x BW Total', desc: bw > 0 ? 'Combined total 5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && total >= bw * 5 });
-  }
-
-  // Completionist
-  achievements.push({ icon: '\u2705', name: 'Big Three Logged', desc: 'All 3 main lifts recorded', earned: bench.weight > 0 && squat.weight > 0 && deadlift.weight > 0 });
-
-  // Level achievements
+  var isFemale = member.gender === 'female';
   var benchLevel = getStrengthLevel(bench.weight, member.gender, 'bench', bw);
   var squatLevel = getStrengthLevel(squat.weight, member.gender, 'squat', bw);
   var deadliftLevel = getStrengthLevel(deadlift.weight, member.gender, 'deadlift', bw);
-  achievements.push({ icon: '\uD83D\uDC8E', name: 'Level 10 Lift', desc: 'Any lift at Level 10+', earned: benchLevel.level >= 10 || squatLevel.level >= 10 || deadliftLevel.level >= 10 });
-  achievements.push({ icon: '\uD83D\uDC51', name: 'Hall of Fame', desc: 'Any lift at Level 12', earned: benchLevel.level >= 12 || squatLevel.level >= 12 || deadliftLevel.level >= 12 });
 
-  // Rank-based
-  if (sameGender.length > 0) {
-    var topPct = function(liftKey, myVal) {
-      var higher = sameGender.filter(function(m2) { return m2[liftKey].weight > myVal; }).length;
-      return ((higher + 1) / sameGender.length) * 100;
-    };
-    var bestPct = Math.min(topPct('bench', bench.weight), topPct('squat', squat.weight), topPct('deadlift', deadlift.weight));
-    achievements.push({ icon: '\uD83C\uDFC5', name: 'Top 10%', desc: 'Top 10% in any lift', earned: bestPct <= 10 });
-    achievements.push({ icon: '\uD83E\uDD47', name: 'Top 3', desc: 'Top 3 in any lift', earned: bestPct <= (3 / sameGender.length * 100 + 0.01) });
-  }
+  var categories = [
+    {
+      name: 'Session Milestones',
+      icon: '\uD83D\uDD25',
+      achievements: [
+        { icon: '\uD83D\uDD25', name: 'First Session', desc: 'Complete 1 session', earned: sessions >= 1 },
+        { icon: '\u26A1', name: '10 Sessions', desc: 'Complete 10 sessions', earned: sessions >= 10 },
+        { icon: '\uD83D\uDCAA', name: '25 Sessions', desc: 'Complete 25 sessions', earned: sessions >= 25 },
+        { icon: '\uD83C\uDFAF', name: '50 Sessions', desc: 'Complete 50 sessions', earned: sessions >= 50 },
+        { icon: '\uD83D\uDE80', name: 'Century Club', desc: 'Complete 100 sessions', earned: sessions >= 100 },
+        { icon: '\uD83C\uDFC6', name: '150 Sessions', desc: 'Complete 150 sessions', earned: sessions >= 150 },
+        { icon: '\uD83D\uDC51', name: '200 Sessions', desc: 'Complete 200 sessions', earned: sessions >= 200 },
+        { icon: '\u2B50', name: '300 Sessions', desc: 'Complete 300 sessions', earned: sessions >= 300 }
+      ]
+    },
+    {
+      name: 'Bodyweight Feats',
+      icon: '\u2696\uFE0F',
+      achievements: isFemale ? [
+        { icon: '\u2696\uFE0F', name: '0.3x BW Bench', desc: bw > 0 ? 'Bench 30% of bodyweight' : 'Log bodyweight to track', earned: bw > 0 && bench.weight >= bw * 0.3 },
+        { icon: '\u2696\uFE0F', name: '0.6x BW Bench', desc: bw > 0 ? 'Bench 60% of bodyweight' : 'Log bodyweight to track', earned: bw > 0 && bench.weight >= bw * 0.6 },
+        { icon: '\uD83E\uDDB5', name: 'BW Squat', desc: bw > 0 ? 'Squat your bodyweight' : 'Log bodyweight to track', earned: bw > 0 && squat.weight >= bw },
+        { icon: '\uD83E\uDDB5', name: '1.25x BW Squat', desc: bw > 0 ? 'Squat 1.25x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && squat.weight >= bw * 1.25 },
+        { icon: '\uD83D\uDD17', name: '1.5x BW Deadlift', desc: bw > 0 ? 'Deadlift 1.5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && deadlift.weight >= bw * 1.5 },
+        { icon: '\uD83D\uDD17', name: '2x BW Deadlift', desc: bw > 0 ? 'Deadlift 2x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && deadlift.weight >= bw * 2 },
+        { icon: '\uD83C\uDF1F', name: '3.5x BW Total', desc: bw > 0 ? 'Combined total 3.5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && total >= bw * 3.5 },
+        { icon: '\uD83D\uDCAA', name: '1st Chin Up', desc: 'Complete an unassisted chin up', earned: (function() { var ck = ['weighted_chin_ups','chin_up','chin_up_4s_lowering','neutral_grip_chin_up','weighted_pull_ups','rest_pause_pull_up']; return member.accessories && ck.some(function(k) { return member.accessories[k] && member.accessories[k].length > 0; }); })() }
+      ] : [
+        { icon: '\u2696\uFE0F', name: '0.5x BW Bench', desc: bw > 0 ? 'Bench half your bodyweight' : 'Log bodyweight to track', earned: bw > 0 && bench.weight >= bw * 0.5 },
+        { icon: '\u2696\uFE0F', name: 'BW Bench', desc: bw > 0 ? 'Bench your bodyweight' : 'Log bodyweight to track', earned: bw > 0 && bench.weight >= bw },
+        { icon: '\uD83E\uDDB5', name: '1.5x BW Squat', desc: bw > 0 ? 'Squat 1.5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && squat.weight >= bw * 1.5 },
+        { icon: '\uD83E\uDDB5', name: '2x BW Squat', desc: bw > 0 ? 'Squat 2x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && squat.weight >= bw * 2 },
+        { icon: '\uD83D\uDD17', name: '2x BW Deadlift', desc: bw > 0 ? 'Deadlift 2x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && deadlift.weight >= bw * 2 },
+        { icon: '\uD83D\uDD17', name: '2.5x BW Deadlift', desc: bw > 0 ? 'Deadlift 2.5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && deadlift.weight >= bw * 2.5 },
+        { icon: '\uD83C\uDF1F', name: '5x BW Total', desc: bw > 0 ? 'Combined total 5x bodyweight' : 'Log bodyweight to track', earned: bw > 0 && total >= bw * 5 },
+        { icon: '\uD83D\uDCAA', name: '1st Chin Up', desc: 'Complete an unassisted chin up', earned: (function() { var ck = ['weighted_chin_ups','chin_up','chin_up_4s_lowering','neutral_grip_chin_up','weighted_pull_ups','rest_pause_pull_up']; return member.accessories && ck.some(function(k) { return member.accessories[k] && member.accessories[k].length > 0; }); })() }
+      ]
+    },
+    {
+      name: 'Strength Levels',
+      icon: '\uD83D\uDC8E',
+      achievements: [
+        { icon: '\u2705', name: 'Big Three Logged', desc: 'All 3 main lifts recorded', earned: bench.weight > 0 && squat.weight > 0 && deadlift.weight > 0 },
+        { icon: '\uD83C\uDFCB\uFE0F', name: isFemale ? '50kg Club' : '100kg Club', desc: isFemale ? 'Any lift over 50kg' : 'Any lift over 100kg', earned: isFemale ? (bench.weight >= 50 || squat.weight >= 50 || deadlift.weight >= 50) : (bench.weight >= 100 || squat.weight >= 100 || deadlift.weight >= 100) },
+        { icon: '\uD83D\uDE80', name: isFemale ? '100kg Club' : '200kg Club', desc: isFemale ? 'Any lift over 100kg' : 'Any lift over 200kg', earned: isFemale ? (bench.weight >= 100 || squat.weight >= 100 || deadlift.weight >= 100) : (bench.weight >= 200 || squat.weight >= 200 || deadlift.weight >= 200) },
+        { icon: '\uD83D\uDD35', name: 'Level 5 Lift', desc: 'Any lift at Level 5+', earned: benchLevel.level >= 5 || squatLevel.level >= 5 || deadliftLevel.level >= 5 },
+        { icon: '\uD83D\uDFE0', name: 'Level 8 Lift', desc: 'Any lift at Level 8+', earned: benchLevel.level >= 8 || squatLevel.level >= 8 || deadliftLevel.level >= 8 },
+        { icon: '\uD83D\uDC8E', name: 'Level 10 Lift', desc: 'Any lift at Level 10+', earned: benchLevel.level >= 10 || squatLevel.level >= 10 || deadliftLevel.level >= 10 },
+        { icon: '\uD83D\uDC51', name: 'Hall of Fame', desc: 'Any lift at Level 12', earned: benchLevel.level >= 12 || squatLevel.level >= 12 || deadliftLevel.level >= 12 },
+        { icon: '\uD83C\uDFC5', name: 'Top 10%', desc: 'Top 10% in any lift', earned: sameGender.length > 0 && (function() { var tp = function(k, v) { var h = sameGender.filter(function(m2) { return m2[k].weight > v; }).length; return ((h+1)/sameGender.length)*100; }; return Math.min(tp('bench',bench.weight),tp('squat',squat.weight),tp('deadlift',deadlift.weight)) <= 10; })() },
+        { icon: '\uD83E\uDD47', name: 'Top 3', desc: 'Top 3 in any lift', earned: sameGender.length > 0 && (function() { var tp = function(k, v) { var h = sameGender.filter(function(m2) { return m2[k].weight > v; }).length; return h+1; }; return Math.min(tp('bench',bench.weight),tp('squat',squat.weight),tp('deadlift',deadlift.weight)) <= 3; })() }
+      ]
+    }
+  ];
 
-  return achievements;
+  // Add earned counts
+  categories.forEach(function(cat) {
+    cat.earnedCount = cat.achievements.filter(function(a) { return a.earned; }).length;
+    cat.totalCount = cat.achievements.length;
+  });
+
+  return categories;
 }
 
-// Challenge cards — dynamic based on current stats
-function getChallenges(member, bench, squat, deadlift, bw, sessions) {
-  var challenges = [];
+// Challenge Levels — 5 tiered progression system
+function getChallengeLevels(member, bench, squat, deadlift, bw, sessions) {
+  var isFemale = member.gender === 'female';
 
-  // Next session milestone
-  var sessionTargets = [10, 25, 50, 75, 100, 150, 200, 300];
-  for (var i = 0; i < sessionTargets.length; i++) {
-    if (sessions < sessionTargets[i]) {
-      challenges.push({
-        name: sessionTargets[i] + ' Sessions',
-        detail: sessions + ' / ' + sessionTargets[i] + ' sessions completed',
-        current: sessions,
-        target: sessionTargets[i],
-        color: 'var(--red)',
-        completed: false
-      });
-      break;
-    }
-  }
+  // Chin up detection
+  var chinKeys = ['weighted_chin_ups', 'chin_up', 'chin_up_4s_lowering', 'neutral_grip_chin_up',
+    'weighted_pull_ups', 'rest_pause_pull_up'];
+  var hasChins = member.accessories && chinKeys.some(function(k) {
+    return member.accessories[k] && member.accessories[k].length > 0;
+  });
 
-  // BW-relative challenges — gender-appropriate targets
-  if (bw > 0) {
-    var benchTarget = member.gender === 'female' ? Math.round(bw * 0.6) : bw;
-    var benchLabel = member.gender === 'female' ? '0.6x BW Bench' : 'Bench Your Bodyweight';
-    if (bench.weight < benchTarget) {
-      challenges.push({ name: benchLabel, detail: bench.weight + 'kg / ' + benchTarget + 'kg', current: bench.weight, target: benchTarget, color: 'var(--red)', completed: false });
-    } else {
-      challenges.push({ name: benchLabel, detail: bench.weight + 'kg / ' + benchTarget + 'kg', current: benchTarget, target: benchTarget, color: 'var(--green)', completed: true });
-    }
-
-    var squatMult = member.gender === 'female' ? 1.0 : 1.5;
-    var squatTarget = Math.round(bw * squatMult);
-    var squatLabel = member.gender === 'female' ? 'BW Squat' : '1.5x BW Squat';
-    if (squat.weight < squatTarget) {
-      challenges.push({ name: squatLabel, detail: squat.weight + 'kg / ' + squatTarget + 'kg', current: squat.weight, target: squatTarget, color: 'var(--blue)', completed: false });
-    } else {
-      challenges.push({ name: squatLabel, detail: squat.weight + 'kg / ' + squatTarget + 'kg', current: squatTarget, target: squatTarget, color: 'var(--green)', completed: true });
-    }
-
-    var dlMult = member.gender === 'female' ? 1.5 : 2;
-    var dlTarget = Math.round(bw * dlMult);
-    var dlLabel = member.gender === 'female' ? '1.5x BW Deadlift' : '2x BW Deadlift';
-    if (deadlift.weight < dlTarget) {
-      challenges.push({ name: dlLabel, detail: deadlift.weight + 'kg / ' + dlTarget + 'kg', current: deadlift.weight, target: dlTarget, color: 'var(--orange)', completed: false });
-    } else {
-      challenges.push({ name: dlLabel, detail: deadlift.weight + 'kg / ' + dlTarget + 'kg', current: dlTarget, target: dlTarget, color: 'var(--green)', completed: true });
-    }
-  }
-
-  // Total milestones
-  var total = bench.weight + squat.weight + deadlift.weight;
-  var totalTargets = member.gender === 'female' ? [150, 200, 250, 300, 400] : [300, 400, 500, 600, 700];
-  for (var j = 0; j < totalTargets.length; j++) {
-    if (total < totalTargets[j]) {
-      challenges.push({
-        name: totalTargets[j] + 'kg Total',
-        detail: Math.round(total) + 'kg / ' + totalTargets[j] + 'kg combined total',
-        current: total,
-        target: totalTargets[j],
-        color: 'var(--purple)',
-        completed: false
-      });
-      break;
-    }
-  }
-
-  // Hip thrust challenge — intermediate standard from strengthlevel.com
+  // Hip thrust detection
   var htEntries = [];
   if (member.accessories) {
     var htKeys = ['hip_thrust', 'barbell_hip_thrust', 'bb_hip_thrust', 'weighted_barbell_hip_thrust'];
     htKeys.forEach(function(k) { if (member.accessories[k]) htEntries = htEntries.concat(member.accessories[k]); });
   }
   var bestHT = getBest1RM(htEntries);
-  if (bestHT.weight > 0 || (member.accessories && (member.accessories.hip_thrust || member.accessories.barbell_hip_thrust))) {
-    // Intermediate standards by gender/BW
-    var htTarget;
-    if (member.gender === 'female') {
+
+  // Hip thrust intermediate target
+  var htTarget = 0;
+  if (bw > 0) {
+    if (isFemale) {
       if (bw <= 50) htTarget = 84; else if (bw <= 60) htTarget = 92; else if (bw <= 70) htTarget = 98;
       else if (bw <= 80) htTarget = 104; else if (bw <= 90) htTarget = 110; else htTarget = 115;
     } else {
       if (bw <= 60) htTarget = 96; else if (bw <= 70) htTarget = 118; else if (bw <= 80) htTarget = 138;
       else if (bw <= 90) htTarget = 158; else if (bw <= 100) htTarget = 176; else htTarget = 194;
     }
-    if (bw <= 0) htTarget = member.gender === 'female' ? 100 : 140; // fallback
-    var htDone = bestHT.weight >= htTarget;
-    challenges.push({
-      name: 'Intermediate Hip Thrust',
-      detail: bestHT.weight + 'kg / ' + htTarget + 'kg',
-      current: bestHT.weight,
-      target: htTarget,
-      color: htDone ? 'var(--green)' : 'var(--purple)',
-      completed: htDone
-    });
+  } else {
+    htTarget = isFemale ? 100 : 140;
   }
 
-  // First unassisted chin up
-  var chinKeys = ['weighted_chin_ups', 'chin_up', 'chin_up_4s_lowering', 'neutral_grip_chin_up',
-    'weighted_pull_ups', 'rest_pause_pull_up'];
-  var hasChins = member.accessories && chinKeys.some(function(k) {
-    return member.accessories[k] && member.accessories[k].length > 0;
-  });
-  challenges.push({
-    name: '1st Unassisted Chin Up',
-    detail: hasChins ? 'Chin up logged!' : 'Not yet recorded',
-    current: hasChins ? 1 : 0,
-    target: 1,
-    color: hasChins ? 'var(--green)' : 'var(--purple)',
-    completed: !!hasChins
+  var levels = [
+    {
+      level: 1, name: 'Foundation', reqs: isFemale ? [
+        { label: 'Bench 0.3x BW', target: bw > 0 ? Math.round(bw * 0.3) : 0, current: bench.weight, unit: 'kg', type: 'lift' },
+        { label: 'Squat 0.5x BW', target: bw > 0 ? Math.round(bw * 0.5) : 0, current: squat.weight, unit: 'kg', type: 'lift' },
+        { label: 'Deadlift 0.75x BW', target: bw > 0 ? Math.round(bw * 0.75) : 0, current: deadlift.weight, unit: 'kg', type: 'lift' },
+        { label: '25 Sessions', target: 25, current: sessions, unit: '', type: 'sessions' }
+      ] : [
+        { label: 'Bench 0.5x BW', target: bw > 0 ? Math.round(bw * 0.5) : 0, current: bench.weight, unit: 'kg', type: 'lift' },
+        { label: 'Squat 0.75x BW', target: bw > 0 ? Math.round(bw * 0.75) : 0, current: squat.weight, unit: 'kg', type: 'lift' },
+        { label: 'Deadlift 1x BW', target: bw > 0 ? bw : 0, current: deadlift.weight, unit: 'kg', type: 'lift' },
+        { label: '25 Sessions', target: 25, current: sessions, unit: '', type: 'sessions' }
+      ]
+    },
+    {
+      level: 2, name: 'Solid', reqs: isFemale ? [
+        { label: 'Bench 0.6x BW', target: bw > 0 ? Math.round(bw * 0.6) : 0, current: bench.weight, unit: 'kg', type: 'lift' },
+        { label: 'Squat 1x BW', target: bw > 0 ? bw : 0, current: squat.weight, unit: 'kg', type: 'lift' },
+        { label: 'Deadlift 1.5x BW', target: bw > 0 ? Math.round(bw * 1.5) : 0, current: deadlift.weight, unit: 'kg', type: 'lift' },
+        { label: '1 Chin Up', target: 1, current: hasChins ? 1 : 0, unit: '', type: 'bool' },
+        { label: '50 Sessions', target: 50, current: sessions, unit: '', type: 'sessions' }
+      ] : [
+        { label: 'Bench 1x BW', target: bw > 0 ? bw : 0, current: bench.weight, unit: 'kg', type: 'lift' },
+        { label: 'Squat 1.5x BW', target: bw > 0 ? Math.round(bw * 1.5) : 0, current: squat.weight, unit: 'kg', type: 'lift' },
+        { label: 'Deadlift 2x BW', target: bw > 0 ? Math.round(bw * 2) : 0, current: deadlift.weight, unit: 'kg', type: 'lift' },
+        { label: '1 Chin Up', target: 1, current: hasChins ? 1 : 0, unit: '', type: 'bool' },
+        { label: '50 Sessions', target: 50, current: sessions, unit: '', type: 'sessions' }
+      ]
+    },
+    {
+      level: 3, name: 'Strong', reqs: isFemale ? [
+        { label: 'Bench 0.75x BW', target: bw > 0 ? Math.round(bw * 0.75) : 0, current: bench.weight, unit: 'kg', type: 'lift' },
+        { label: 'Squat 1.25x BW', target: bw > 0 ? Math.round(bw * 1.25) : 0, current: squat.weight, unit: 'kg', type: 'lift' },
+        { label: 'Deadlift 1.75x BW', target: bw > 0 ? Math.round(bw * 1.75) : 0, current: deadlift.weight, unit: 'kg', type: 'lift' },
+        { label: 'Intermediate Hip Thrust', target: htTarget, current: bestHT.weight, unit: 'kg', type: 'lift' },
+        { label: '100 Sessions', target: 100, current: sessions, unit: '', type: 'sessions' }
+      ] : [
+        { label: 'Bench 1.25x BW', target: bw > 0 ? Math.round(bw * 1.25) : 0, current: bench.weight, unit: 'kg', type: 'lift' },
+        { label: 'Squat 1.75x BW', target: bw > 0 ? Math.round(bw * 1.75) : 0, current: squat.weight, unit: 'kg', type: 'lift' },
+        { label: 'Deadlift 2.25x BW', target: bw > 0 ? Math.round(bw * 2.25) : 0, current: deadlift.weight, unit: 'kg', type: 'lift' },
+        { label: 'Intermediate Hip Thrust', target: htTarget, current: bestHT.weight, unit: 'kg', type: 'lift' },
+        { label: '100 Sessions', target: 100, current: sessions, unit: '', type: 'sessions' }
+      ]
+    },
+    {
+      level: 4, name: 'Elite', reqs: isFemale ? [
+        { label: 'Bench 1x BW', target: bw > 0 ? bw : 0, current: bench.weight, unit: 'kg', type: 'lift' },
+        { label: 'Squat 1.5x BW', target: bw > 0 ? Math.round(bw * 1.5) : 0, current: squat.weight, unit: 'kg', type: 'lift' },
+        { label: 'Deadlift 2x BW', target: bw > 0 ? Math.round(bw * 2) : 0, current: deadlift.weight, unit: 'kg', type: 'lift' },
+        { label: 'Weighted Chin Up', target: 1, current: hasChins ? 1 : 0, unit: '', type: 'bool' },
+        { label: '150 Sessions', target: 150, current: sessions, unit: '', type: 'sessions' }
+      ] : [
+        { label: 'Bench 1.5x BW', target: bw > 0 ? Math.round(bw * 1.5) : 0, current: bench.weight, unit: 'kg', type: 'lift' },
+        { label: 'Squat 2x BW', target: bw > 0 ? Math.round(bw * 2) : 0, current: squat.weight, unit: 'kg', type: 'lift' },
+        { label: 'Deadlift 2.5x BW', target: bw > 0 ? Math.round(bw * 2.5) : 0, current: deadlift.weight, unit: 'kg', type: 'lift' },
+        { label: 'Weighted Chin Up', target: 1, current: hasChins ? 1 : 0, unit: '', type: 'bool' },
+        { label: '150 Sessions', target: 150, current: sessions, unit: '', type: 'sessions' }
+      ]
+    },
+    {
+      level: 5, name: 'Hall of Fame', reqs: [
+        { label: 'Bench L12', target: 0, current: bench.weight, unit: 'kg', type: 'level12', liftKey: 'bench' },
+        { label: 'Squat L12', target: 0, current: squat.weight, unit: 'kg', type: 'level12', liftKey: 'squat' },
+        { label: 'Deadlift L12', target: 0, current: deadlift.weight, unit: 'kg', type: 'level12', liftKey: 'deadlift' },
+        { label: '200 Sessions', target: 200, current: sessions, unit: '', type: 'sessions' }
+      ]
+    }
+  ];
+
+  // Resolve L12 targets
+  levels.forEach(function(lv) {
+    lv.reqs.forEach(function(req) {
+      if (req.type === 'level12') {
+        var l12 = getNextLevelTarget(0, member.gender, req.liftKey, bw);
+        // Walk up to find L12 threshold
+        var testWeight = req.current;
+        var lvl = getStrengthLevel(testWeight, member.gender, req.liftKey, bw);
+        if (lvl.level >= 12) {
+          req.target = testWeight;
+          req.done = true;
+        } else {
+          // Find the L12 threshold by checking next levels up
+          var target = testWeight;
+          for (var i = 0; i < 50; i++) {
+            var nl = getNextLevelTarget(target, member.gender, req.liftKey, bw);
+            if (!nl) { req.target = target; break; }
+            target = nl.target;
+            if (nl.level >= 12) { req.target = nl.target; break; }
+          }
+        }
+      }
+    });
   });
 
-  return challenges;
+  // Calculate completion for each level
+  levels.forEach(function(lv) {
+    var validReqs = lv.reqs.filter(function(r) { return r.target > 0; });
+    lv.reqs.forEach(function(req) {
+      if (req.target <= 0) {
+        req.done = false;
+        req.label += ' (log BW)';
+      } else {
+        req.done = req.current >= req.target;
+      }
+    });
+    var doneCount = validReqs.filter(function(r) { return r.done; }).length;
+    lv.completed = validReqs.length > 0 && doneCount === validReqs.length;
+    lv.doneCount = doneCount;
+    lv.totalReqs = validReqs.length;
+  });
+
+  // Determine current level
+  var currentLevel = 0;
+  for (var i = 0; i < levels.length; i++) {
+    if (levels[i].completed) currentLevel = levels[i].level;
+    else break;
+  }
+
+  levels.forEach(function(lv) {
+    if (lv.completed) lv.status = 'completed';
+    else if (lv.level === currentLevel + 1) lv.status = 'current';
+    else lv.status = 'locked';
+  });
+
+  return levels;
 }
 
 // Build progress ring SVG
@@ -2232,12 +2569,128 @@ function getRankBadgeLabel(type) {
 // ========================
 // RENDERING — INDIVIDUAL DASHBOARD (safe DOM)
 // ========================
+// 21 Day Trial — motivational quotes/stats (one per day)
+var TRIAL_QUOTES = [
+  "Every expert was once a beginner. You showed up. That's the hardest part.",
+  "The bar doesn't care about your excuses. And neither do your results.",
+  "You don't need motivation. You need discipline. Motivation got you here. Discipline keeps you.",
+  "Strength isn't built in comfort. It's built in the moments you wanted to quit but didn't.",
+  "People who train 3x per week are 4x more likely to stick with fitness long term.",
+  "Your muscles don't know it's only day 5. They just know you showed up again.",
+  "The average gym member quits in 6 weeks. You're not average.",
+  "Consistency beats intensity. Showing up 3x beats going hard once.",
+  "Strength training increases bone density by up to 8% in just 6 months.",
+  "You are literally becoming a different person. Every session rewrites your biology.",
+  "The people around you in class? They started exactly where you are now.",
+  "Halfway there. Your body is adapting. Trust the process.",
+  "Strength training reduces anxiety by 20% — better than most medications.",
+  "Nobody regrets a workout. Nobody.",
+  "Your future self is thanking you for every session you complete this week.",
+  "2 weeks of strength training increases resting metabolism by up to 7%.",
+  "You're building something most people never will — real, lasting strength.",
+  "The last few days are where champions are made. Don't coast. Finish strong.",
+  "People who complete structured programs are 3x more likely to keep training.",
+  "You came here to change. You're doing it. One session at a time.",
+  "Day 21. You did it. This isn't the end — it's the beginning of everything."
+];
+
+function renderTrialDashboard(member, container) {
+  var day = member.dayNumber || 1;
+  if (day < 1) day = 1;
+  if (day > 21) day = 21;
+  var sessionsAttended = member.sessionsAttended || 0;
+  var totalExpected = member.expectedSessions || 9;
+  var progressPct = Math.min(Math.round((day / 21) * 100), 100);
+
+  // Has lifts?
+  var hasB = member.lifts && member.lifts.bench && member.lifts.bench.length > 0;
+  var hasS = member.lifts && member.lifts.squat && member.lifts.squat.length > 0;
+  var hasD = member.lifts && member.lifts.deadlift && member.lifts.deadlift.length > 0;
+  var hasAcc = member.accessories && Object.keys(member.accessories).length > 0;
+  var hasBW = member.bodyweight > 0;
+  var hasAge = member.dob && member.dob.length > 0;
+  var fiveInTwoWeeks = day <= 14 ? sessionsAttended >= 5 : sessionsAttended >= 5;
+  var allThreeWeeks = day >= 21 && sessionsAttended >= 7;
+
+  // HERO — Day counter
+  var hero = el('div', { className: 'trial-hero' });
+  hero.appendChild(el('div', { className: 'trial-hero-label' }, '21 Day Strength Reset'));
+  var dayEl = el('div', { className: 'trial-hero-day' });
+  dayEl.textContent = day;
+  dayEl.appendChild(el('span', null, ' / 21'));
+  hero.appendChild(dayEl);
+  hero.appendChild(el('div', { className: 'trial-hero-name' }, member.name));
+
+  var bar = el('div', { className: 'trial-progress-bar' });
+  bar.appendChild(el('div', { className: 'trial-progress-fill', style: { width: progressPct + '%' } }));
+  hero.appendChild(bar);
+  hero.appendChild(el('div', { className: 'trial-progress-text' }, sessionsAttended + ' sessions completed'));
+  container.appendChild(hero);
+
+  // SESSION TRACKER — visual dots
+  container.appendChild(el('div', { className: 'section-title' }, 'Your Sessions'));
+  var sessionGrid = el('div', { className: 'trial-sessions-grid' });
+  var targetSessions = Math.max(totalExpected, 9);
+  for (var i = 1; i <= targetSessions; i++) {
+    var dot = el('div', { className: 'trial-session-dot ' + (i <= sessionsAttended ? 'done' : 'upcoming') });
+    dot.textContent = i;
+    sessionGrid.appendChild(dot);
+  }
+  container.appendChild(sessionGrid);
+
+  // DAILY QUOTE / STAT
+  var quoteIdx = Math.min(day - 1, TRIAL_QUOTES.length - 1);
+  if (quoteIdx < 0) quoteIdx = 0;
+  var quoteBox = el('div', { className: 'trial-quote' });
+  quoteBox.appendChild(el('div', { className: 'trial-quote-text' }, TRIAL_QUOTES[quoteIdx]));
+  quoteBox.appendChild(el('div', { className: 'trial-quote-day' }, 'Day ' + day + ' of 21'));
+  container.appendChild(quoteBox);
+
+  // CHECKLIST
+  container.appendChild(el('div', { className: 'section-title' }, 'Your Checklist'));
+  var checklist = el('div', { className: 'trial-checklist' });
+  var checks = [
+    { label: '5 sessions in first 2 weeks', done: fiveInTwoWeeks },
+    { label: 'Add bodyweight to TrainHeroic', done: hasBW },
+    { label: 'Add age to TrainHeroic', done: hasAge },
+    { label: 'First barbell squat logged', done: hasS },
+    { label: 'First bench press logged', done: hasB },
+    { label: 'First deadlift logged', done: hasD },
+    { label: 'Big Three complete — all 3 lifts recorded', done: hasB && hasS && hasD },
+    { label: 'Complete all 3 weeks', done: allThreeWeeks }
+  ];
+  checks.forEach(function(ch) {
+    var item = el('div', { className: 'trial-check-item ' + (ch.done ? 'done' : 'pending') });
+    item.appendChild(el('div', { className: 'trial-check-icon' }, ch.done ? '\u2713' : '\u25CB'));
+    item.appendChild(el('div', null, ch.label));
+    checklist.appendChild(item);
+  });
+  container.appendChild(checklist);
+
+  // CTA — near end of trial
+  if (day >= 15) {
+    var cta = el('div', { className: 'trial-cta' });
+    var daysLeft = Math.max(21 - day, 0);
+    cta.appendChild(el('div', { className: 'trial-cta-title' }, daysLeft > 0 ? daysLeft + ' days left' : 'Your 21 days are up!'));
+    cta.appendChild(el('div', { className: 'trial-cta-text' }, daysLeft > 0 ? 'Talk to your coach about continuing your strength journey.' : 'Ask your coach about membership options to keep your momentum going.'));
+    container.appendChild(cta);
+  }
+
+  container.classList.add('active');
+}
+
 function renderMemberDashboard(memberId) {
   var container = document.getElementById('memberDashboard');
   container.textContent = '';
   if (!DATA) return;
   var member = DATA.members.find(function(m) { return m.id === memberId; });
   if (!member) { container.appendChild(buildEmptyState('Member not found.')); container.classList.add('active'); return; }
+
+  // Check if trial member — show special dashboard
+  if (member.isTrialMember) {
+    renderTrialDashboard(member, container);
+    return;
+  }
 
   var bench = getBest1RM(member.lifts && member.lifts.bench);
   var squat = getBest1RM(member.lifts && member.lifts.squat);
@@ -2432,41 +2885,76 @@ function renderMemberDashboard(memberId) {
   rewardsWrapper.appendChild(overlay);
   container.appendChild(rewardsWrapper);
 
-  // CHALLENGE CARDS
-  var challenges = getChallenges(member, bench, squat, deadlift, bw, sessions);
-  if (challenges.length > 0) {
-    container.appendChild(el('div', { className: 'section-title' }, 'Active Challenges'));
-    var challengesGrid = el('div', { className: 'gamify-challenges-grid' });
-    challenges.forEach(function(ch) {
-      var pct = ch.target > 0 ? (ch.current / ch.target) * 100 : 0;
-      var card = el('div', { className: 'gamify-challenge-card' + (ch.completed ? ' completed' : '') });
-      card.appendChild(buildProgressRing(pct, ch.completed ? 'var(--green)' : ch.color));
-      var info = el('div', { className: 'gamify-challenge-info' });
-      info.appendChild(el('div', { className: 'gamify-challenge-name' }, ch.name));
-      info.appendChild(el('div', { className: 'gamify-challenge-detail' }, ch.detail));
-      card.appendChild(info);
-      if (ch.completed) card.appendChild(el('div', { className: 'gamify-challenge-check' }, '\u2713'));
-      challengesGrid.appendChild(card);
-    });
-    container.appendChild(challengesGrid);
-  }
+  // CHALLENGE LEVELS (5-tier progression)
+  var challengeLevels = getChallengeLevels(member, bench, squat, deadlift, bw, sessions);
+  container.appendChild(el('div', { className: 'section-title' }, 'Challenge Levels'));
+  var levelsContainer = el('div', { className: 'challenge-levels' });
+  challengeLevels.forEach(function(lv) {
+    var card = el('div', { className: 'challenge-level-card ' + lv.status });
+    var header = el('div', { className: 'challenge-level-header' });
+    header.appendChild(el('div', { className: 'challenge-level-num' }, lv.status === 'completed' ? '\u2713' : String(lv.level)));
+    var info = el('div', { className: 'challenge-level-info' });
+    info.appendChild(el('div', { className: 'challenge-level-name' }, 'Level ' + lv.level + ' \u2014 ' + lv.name));
+    if (lv.status === 'current') {
+      info.appendChild(el('div', { className: 'challenge-level-progress-text' }, lv.doneCount + ' of ' + lv.totalReqs + ' requirements completed'));
+    }
+    header.appendChild(info);
+    var statusLabel = lv.status === 'completed' ? 'Complete' : (lv.status === 'current' ? 'In Progress' : 'Locked');
+    header.appendChild(el('div', { className: 'challenge-level-status' }, statusLabel));
+    card.appendChild(header);
 
-  // ACHIEVEMENT BADGES
-  var achievements = getAchievements(member, bench, squat, deadlift, bw, sessions, sameGender);
-  container.appendChild(el('div', { className: 'section-title' }, 'Achievements'));
-  var badgesGrid = el('div', { className: 'gamify-badges-grid' });
-  // Sort: earned first
-  achievements.sort(function(a, b) { return (b.earned ? 1 : 0) - (a.earned ? 1 : 0); });
-  achievements.forEach(function(ach) {
-    var badge = el('div', { className: 'gamify-badge ' + (ach.earned ? 'earned' : 'unearned') });
-    badge.appendChild(el('div', { className: 'gamify-badge-icon' }, ach.icon));
-    var bInfo = el('div', { className: 'gamify-badge-info' });
-    bInfo.appendChild(el('div', { className: 'gamify-badge-name' }, ach.name));
-    bInfo.appendChild(el('div', { className: 'gamify-badge-desc' }, ach.desc));
-    badge.appendChild(bInfo);
-    badgesGrid.appendChild(badge);
+    // Show requirements for completed and current levels
+    if (lv.status !== 'locked') {
+      var reqsGrid = el('div', { className: 'challenge-reqs' });
+      lv.reqs.forEach(function(req) {
+        var reqEl = el('div', { className: 'challenge-req ' + (req.done ? 'done' : 'pending') });
+        reqEl.appendChild(el('div', { className: 'challenge-req-icon' }, req.done ? '\u2713' : '\u25CB'));
+        var text = req.label;
+        if (req.target > 0 && req.unit && !req.done) {
+          text += ' (' + req.current + '/' + req.target + req.unit + ')';
+        }
+        reqEl.appendChild(el('div', { className: 'challenge-req-text' }, text));
+        reqsGrid.appendChild(reqEl);
+      });
+      card.appendChild(reqsGrid);
+    }
+
+    levelsContainer.appendChild(card);
   });
-  container.appendChild(badgesGrid);
+  container.appendChild(levelsContainer);
+
+  // CATEGORIZED ACHIEVEMENTS (collapsible)
+  var achieveCategories = getCategorizedAchievements(member, bench, squat, deadlift, bw, sessions, sameGender);
+  container.appendChild(el('div', { className: 'section-title' }, 'Achievements'));
+  achieveCategories.forEach(function(cat, catIdx) {
+    var catDiv = el('div', { className: 'achieve-category' + (catIdx === 0 ? ' open' : '') });
+    var catHeader = el('div', { className: 'achieve-category-header' });
+    catHeader.addEventListener('click', function() { catDiv.classList.toggle('open'); });
+    var leftSide = el('div', { className: 'achieve-category-left' });
+    leftSide.appendChild(el('div', { className: 'achieve-category-icon' }, cat.icon));
+    leftSide.appendChild(el('div', { className: 'achieve-category-name' }, cat.name));
+    catHeader.appendChild(leftSide);
+    var countClass = 'achieve-category-count' + (cat.earnedCount === cat.totalCount ? ' all-done' : '');
+    catHeader.appendChild(el('div', { className: countClass }, cat.earnedCount + '/' + cat.totalCount));
+    catHeader.appendChild(el('div', { className: 'achieve-category-arrow' }, '\u25BC'));
+    catDiv.appendChild(catHeader);
+
+    var catBody = el('div', { className: 'achieve-category-body' });
+    var badgesGrid = el('div', { className: 'gamify-badges-grid' });
+    cat.achievements.sort(function(a, b) { return (b.earned ? 1 : 0) - (a.earned ? 1 : 0); });
+    cat.achievements.forEach(function(ach) {
+      var badge = el('div', { className: 'gamify-badge ' + (ach.earned ? 'earned' : 'unearned') });
+      badge.appendChild(el('div', { className: 'gamify-badge-icon' }, ach.icon));
+      var bInfo = el('div', { className: 'gamify-badge-info' });
+      bInfo.appendChild(el('div', { className: 'gamify-badge-name' }, ach.name));
+      bInfo.appendChild(el('div', { className: 'gamify-badge-desc' }, ach.desc));
+      badge.appendChild(bInfo);
+      badgesGrid.appendChild(badge);
+    });
+    catBody.appendChild(badgesGrid);
+    catDiv.appendChild(catBody);
+    container.appendChild(catDiv);
+  });
 
   // SUMMARY ROW
   var summaryRow = el('div', { className: 'summary-row' });
@@ -2491,53 +2979,6 @@ function renderMemberDashboard(memberId) {
     summaryRow.appendChild(card);
   });
   container.appendChild(summaryRow);
-
-  // ACCESSORIES
-  var accEntries = [];
-  if (member.accessories) {
-    for (var accName in member.accessories) {
-      var entries = member.accessories[accName];
-      if (entries.length > 0) {
-        var accBest = getBest1RM(entries);
-        var accFirst = getFirst1RM(entries);
-        accEntries.push({
-          name: formatLiftName(accName),
-          current: accBest.weight,
-          start: accFirst.weight,
-          gain: Math.round((accBest.weight - accFirst.weight) * 10) / 10,
-          gainPct: accFirst.weight > 0 ? Math.round(((accBest.weight - accFirst.weight) / accFirst.weight) * 1000) / 10 : 0
-        });
-      }
-    }
-  }
-
-  if (accEntries.length > 0) {
-    container.appendChild(el('div', { className: 'section-title' }, 'Accessories \u2014 Strength Gain'));
-    var accSection = el('div', { className: 'accessories-section' });
-    var accTable = el('table', { className: 'acc-table' });
-    var accThead = el('thead');
-    var accHeadRow = el('tr');
-    ['Lift', 'Current', 'Start', 'Gained', '%'].forEach(function(h) {
-      accHeadRow.appendChild(el('th', null, h));
-    });
-    accThead.appendChild(accHeadRow);
-    accTable.appendChild(accThead);
-    var accTbody = el('tbody');
-    accEntries.forEach(function(a) {
-      var tr = el('tr');
-      tr.appendChild(el('td', null, a.name));
-      tr.appendChild(el('td', null, a.current + ' kg'));
-      tr.appendChild(el('td', { style: { color: 'var(--text-muted)' } }, a.start + ' kg'));
-      tr.appendChild(el('td', { style: { color: 'var(--green)' } }, '+' + a.gain + ' kg'));
-      tr.appendChild(el('td', { style: { color: 'var(--green)' } }, '+' + a.gainPct + '%'));
-      accTbody.appendChild(tr);
-    });
-    accTable.appendChild(accTbody);
-    var accScroll = el('div', { className: 'table-scroll' });
-    accScroll.appendChild(accTable);
-    accSection.appendChild(accScroll);
-    container.appendChild(accSection);
-  }
 
   container.classList.add('active');
 }
