@@ -1180,9 +1180,212 @@
     .gamify-badge-icon { font-size: 22px; }
     .gamify-badge-name { font-size: 11px; }
   }
+
+  /* ======================== */
+  /* LOGIN SCREEN             */
+  /* ======================== */
+  .login-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  .login-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('rtb-bg.jpg') center center / cover no-repeat;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .login-screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none;
+  }
+  .login-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .login-card {
+    position: relative;
+    z-index: 1;
+    background: rgba(17,17,17,0.95);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    border-radius: 8px;
+    padding: 50px 44px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 80px rgba(227,0,15,0.12), 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .login-logo-wrap {
+    margin-bottom: 24px;
+  }
+  .login-logo {
+    height: 60px;
+    mix-blend-mode: screen;
+  }
+  .login-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--red);
+    margin: 0 auto 24px;
+  }
+  .login-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    letter-spacing: 4px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .login-title span {
+    color: var(--red);
+  }
+  .login-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .login-input {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 17px;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  .login-input::placeholder {
+    color: #555;
+  }
+  .login-input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(227,0,15,0.15);
+  }
+  .login-btn {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 16px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .login-btn:hover {
+    background: #ff1a2e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(227,0,15,0.4);
+  }
+  .login-btn:active {
+    transform: translateY(0);
+  }
+  .login-error {
+    color: var(--red);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    margin-top: 12px;
+    min-height: 20px;
+  }
+  .login-footer {
+    margin-top: 28px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .login-skip {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 24px;
+    color: var(--text-muted);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .login-skip:hover {
+    color: #fff;
+    border-color: #555;
+  }
+
+  /* Logged-in header indicator */
+  .logged-in-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .logged-in-user:hover { border-color: #555; color: #fff; }
+  .logged-in-user .user-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+  }
+
+  @media (max-width: 480px) {
+    .login-card { padding: 36px 24px; }
+    .login-title { font-size: 30px; }
+    .login-logo { height: 48px; }
+  }
 </style>
 </head>
 <body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo-wrap">
+      <img class="login-logo" id="loginLogo" src="" alt="RTB Gym">
+    </div>
+    <div class="login-divider"></div>
+    <h1 class="login-title">STRENGTH <span>LEADERBOARD</span></h1>
+    <p class="login-sub">Enter your email to view your dashboard</p>
+    <div class="login-form">
+      <input type="email" id="loginEmail" class="login-input" placeholder="your@email.com" autocomplete="email" inputmode="email">
+      <button id="loginBtn" class="login-btn">VIEW MY DASHBOARD</button>
+    </div>
+    <div id="loginError" class="login-error"></div>
+    <div class="login-footer">
+      <button id="loginSkip" class="login-skip">View full leaderboard instead</button>
+    </div>
+  </div>
+</div>
 
 <!-- HEADER -->
 <header class="header">
@@ -2587,6 +2790,109 @@ function loadData(data) {
 }
 
 // ========================
+// LOGIN SYSTEM
+// ========================
+var LOGGED_IN_MEMBER = null;
+
+function initLogin() {
+  var loginScreen = document.getElementById('loginScreen');
+  var loginEmail = document.getElementById('loginEmail');
+  var loginBtn = document.getElementById('loginBtn');
+  var loginSkip = document.getElementById('loginSkip');
+  var loginError = document.getElementById('loginError');
+  var loginLogo = document.getElementById('loginLogo');
+
+  // Copy logo src from main header logo
+  var mainLogo = document.querySelector('.header .logo-img');
+  if (mainLogo) loginLogo.src = mainLogo.src;
+
+  // Check if already logged in
+  var savedEmail = localStorage.getItem('rtb-login-email');
+  if (savedEmail) {
+    loginEmail.value = savedEmail;
+  }
+
+  loginBtn.addEventListener('click', function() { attemptLogin(); });
+  loginEmail.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') attemptLogin();
+  });
+  loginSkip.addEventListener('click', function() { hideLoginScreen(); });
+
+  function attemptLogin() {
+    var email = loginEmail.value.trim().toLowerCase();
+    if (!email) {
+      loginError.textContent = 'Please enter your email address';
+      return;
+    }
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      loginError.textContent = 'Please enter a valid email address';
+      return;
+    }
+    if (!DATA || !DATA.members) {
+      loginError.textContent = 'Still loading data — try again in a moment';
+      return;
+    }
+    var member = DATA.members.find(function(m) {
+      return m.email && m.email.toLowerCase() === email;
+    });
+    if (member) {
+      localStorage.setItem('rtb-login-email', email);
+      LOGGED_IN_MEMBER = member;
+      hideLoginScreen();
+      setTimeout(function() { showMember(member.id); }, 300);
+      addLoggedInIndicator(member);
+    } else {
+      loginError.textContent = 'Email not found — check your spelling or view the full leaderboard below';
+      localStorage.setItem('rtb-login-email', email);
+    }
+  }
+}
+
+function hideLoginScreen() {
+  var loginScreen = document.getElementById('loginScreen');
+  loginScreen.classList.add('hidden');
+  setTimeout(function() { loginScreen.style.display = 'none'; }, 500);
+}
+
+function autoLogin() {
+  var savedEmail = localStorage.getItem('rtb-login-email');
+  if (!savedEmail || !DATA || !DATA.members) return false;
+  var member = DATA.members.find(function(m) {
+    return m.email && m.email.toLowerCase() === savedEmail.toLowerCase();
+  });
+  if (member) {
+    LOGGED_IN_MEMBER = member;
+    hideLoginScreen();
+    setTimeout(function() { showMember(member.id); }, 300);
+    addLoggedInIndicator(member);
+    return true;
+  }
+  return false;
+}
+
+function addLoggedInIndicator(member) {
+  var headerRight = document.querySelector('.header-right');
+  if (!headerRight || document.getElementById('loggedInUser')) return;
+  var indicator = document.createElement('div');
+  indicator.id = 'loggedInUser';
+  indicator.className = 'logged-in-user';
+  var dot = document.createElement('span');
+  dot.className = 'user-dot';
+  indicator.appendChild(dot);
+  indicator.appendChild(document.createTextNode(member.name.split(' ')[0]));
+  indicator.title = 'Click to view your dashboard';
+  indicator.addEventListener('click', function() { showMember(member.id); });
+  indicator.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    if (confirm('Log out?')) {
+      localStorage.removeItem('rtb-login-email');
+      location.reload();
+    }
+  });
+  headerRight.insertBefore(indicator, headerRight.firstChild);
+}
+
+// ========================
 // INIT
 // ========================
 (function init() {
@@ -2596,11 +2902,11 @@ function loadData(data) {
   initSearch();
   initModal();
 
-  // Try to load real TrainHeroic data first, then fall back to localStorage
   fetch('rtb-trainheroic-data.json')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       loadData(data);
+      if (!autoLogin()) { initLogin(); }
     })
     .catch(function() {
       var saved = localStorage.getItem('rtb-leaderboard-data');
@@ -2609,11 +2915,14 @@ function loadData(data) {
           DATA = JSON.parse(saved);
           document.getElementById('lastUpdated').textContent = 'Updated: ' + formatDate(DATA.lastUpdated || '');
           renderRawLeaderboard('male');
+          if (!autoLogin()) { initLogin(); }
         } catch (e) {
           renderRawLeaderboard('male');
+          initLogin();
         }
       } else {
         renderRawLeaderboard('male');
+        initLogin();
       }
     });
 })();
