@@ -8,51 +8,46 @@
 <meta http-equiv="Expires" content="0">
 <title>RTB Gym — Strength Leaderboard</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600;700&family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;600;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #000000;
-    --surface: #111111;
-    --surface2: #1a1a1a;
-    --border: #2a2a2a;
-    --text: #FFFFFF;
-    --text-muted: #999999;
-    --red: #E3000F;
-    --red-glow: rgba(227, 0, 15, 0.3);
-    --gold: #FFD700;
-    --silver: #C0C0C0;
-    --bronze: #CD7F32;
-    --green: #22C55E;
-    --blue: #3B82F6;
-    --purple: #7B68EE;
-    --orange: #FF8C00;
+    --bg: #f5f5f5;
+    --surface: #ffffff;
+    --surface2: #eeeeee;
+    --border: #d9d9d9;
+    --text: #000000;
+    --text-muted: #797979;
+    --red: #000000;
+    --red-glow: rgba(0, 0, 0, 0.1);
+    --gold: #B8860B;
+    --silver: #808080;
+    --bronze: #8B4513;
+    --green: #16a34a;
+    --blue: #2563EB;
+    --purple: #6D28D9;
+    --orange: #D97706;
+    --accent: #000000;
   }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 400;
     line-height: 1.5;
     min-height: 100vh;
     position: relative;
   }
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: url('rtb-bg.jpg') center center / cover no-repeat;
-    opacity: 0.12;
-    z-index: -1;
-    pointer-events: none;
+    display: none;
   }
 
   /* HEADER */
   .header {
-    background: var(--surface);
-    border-bottom: 2px solid var(--red);
+    background: #000;
+    border-bottom: none;
     padding: 20px 40px;
     display: flex;
     align-items: center;
@@ -67,23 +62,25 @@
     gap: 20px;
   }
   .logo-img {
-    height: 48px;
+    height: 44px;
     mix-blend-mode: screen;
   }
   .logo-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 3px;
-    color: var(--text);
-  }
-  .logo-text span { color: var(--red); }
-  .header-subtitle {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #fff;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    color: var(--text-muted);
+  }
+  .logo-text span { color: #fff; }
+  .header-subtitle {
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
   }
   .header-right {
     display: flex;
@@ -92,22 +89,23 @@
   }
   .last-updated {
     font-size: 13px;
-    color: var(--text-muted);
+    color: #999;
   }
   .data-btn {
-    background: var(--red);
-    color: white;
+    background: #fff;
+    color: #000;
     border: none;
-    padding: 8px 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
+    padding: 8px 24px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.2s;
+    border-radius: 300px;
   }
-  .data-btn:hover { background: #ff1a2e; transform: translateY(-1px); }
+  .data-btn:hover { background: #e0e0e0; transform: translateY(-1px); }
 
   /* NAV TABS */
   .nav-tabs {
@@ -118,11 +116,11 @@
     gap: 0;
   }
   .nav-tab {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: var(--text-muted);
     padding: 14px 28px;
     cursor: pointer;
@@ -134,7 +132,7 @@
     border-right: none;
   }
   .nav-tab:hover { color: var(--text); }
-  .nav-tab.active { color: var(--red); border-bottom-color: var(--red); }
+  .nav-tab.active { color: var(--text); border-bottom-color: var(--text); }
 
   /* MAIN CONTENT */
   .main { padding: 30px 40px; max-width: 1400px; margin: 0 auto; }
@@ -149,11 +147,11 @@
     margin-bottom: 24px;
   }
   .gender-btn {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     padding: 10px 32px;
     background: var(--surface);
     color: var(--text-muted);
@@ -161,9 +159,9 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  .gender-btn:first-child { border-radius: 4px 0 0 4px; }
-  .gender-btn:last-child { border-radius: 0 4px 4px 0; }
-  .gender-btn.active { background: var(--red); color: white; border-color: var(--red); }
+  .gender-btn:first-child { border-radius: 300px 0 0 300px; }
+  .gender-btn:last-child { border-radius: 0 300px 300px 0; }
+  .gender-btn.active { background: #000; color: #fff; border-color: #000; }
   .location-toggle {
     display: flex;
     justify-content: center;
@@ -171,20 +169,20 @@
   }
   .location-btn {
     padding: 8px 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     background: var(--surface);
     color: var(--text-muted);
     border: 1px solid var(--border);
     cursor: pointer;
     transition: all 0.2s;
   }
-  .location-btn:first-child { border-radius: 4px 0 0 4px; }
-  .location-btn:last-child { border-radius: 0 4px 4px 0; }
-  .location-btn.active { background: var(--surface2); color: var(--text); border-color: var(--text-muted); }
+  .location-btn:first-child { border-radius: 300px 0 0 300px; }
+  .location-btn:last-child { border-radius: 0 300px 300px 0; }
+  .location-btn.active { background: #000; color: #fff; border-color: #000; }
 
   /* LEADERBOARD TABLE */
   .leaderboard-table {
@@ -192,11 +190,11 @@
     border-collapse: collapse;
   }
   .leaderboard-table th {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: var(--text-muted);
     text-align: left;
     padding: 12px 16px;
@@ -224,14 +222,16 @@
     justify-content: center;
   }
   .stat-rank-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
     line-height: 1;
-    color: var(--red);
+    color: var(--text);
   }
   .stat-rank-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--text-muted);
@@ -255,21 +255,22 @@
     font-size: 15px;
     font-weight: 600;
   }
-  .leaderboard-table td.num { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 22px; }
-  .leaderboard-table td.lift { text-align: right; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; }
+  .leaderboard-table td.num { text-align: center; font-family: 'Anton', sans-serif; font-size: 20px; font-weight: 400; }
+  .leaderboard-table td.lift { text-align: right; font-family: 'Epilogue', sans-serif; font-size: 16px; font-weight: 700; }
   .leaderboard-table td.total {
     text-align: right;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    color: var(--red);
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
   }
   .leaderboard-table tr:hover { background: var(--surface2); }
   .leaderboard-table tr.rank-1 td.num { color: var(--gold); }
   .leaderboard-table tr.rank-2 td.num { color: var(--silver); }
   .leaderboard-table tr.rank-3 td.num { color: var(--bronze); }
-  .leaderboard-table tr.rank-1 { background: rgba(255, 215, 0, 0.05); }
-  .leaderboard-table tr.rank-2 { background: rgba(192, 192, 192, 0.04); }
-  .leaderboard-table tr.rank-3 { background: rgba(205, 127, 50, 0.04); }
+  .leaderboard-table tr.rank-1 { background: rgba(184, 134, 11, 0.06); }
+  .leaderboard-table tr.rank-2 { background: rgba(128, 128, 128, 0.06); }
+  .leaderboard-table tr.rank-3 { background: rgba(139, 69, 19, 0.06); }
 
   .member-name { cursor: pointer; transition: color 0.2s; }
   .member-name:hover { color: var(--red); }
@@ -282,14 +283,16 @@
 
   /* AGE GROUP HEADERS */
   .age-group-header {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 2px;
-    color: var(--red);
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
     margin-top: 32px;
     margin-bottom: 12px;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--red);
+    border-bottom: 2px solid var(--text);
   }
   .age-group-header:first-child { margin-top: 0; }
 
@@ -306,14 +309,15 @@
     padding: 14px 20px 14px 48px;
     background: var(--surface);
     border: 2px solid var(--border);
+    border-radius: 300px;
     color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
     outline: none;
     transition: border-color 0.2s;
   }
-  .search-input:focus { border-color: var(--red); }
+  .search-input:focus { border-color: #000; }
   .search-input::placeholder { color: var(--text-muted); }
   .search-icon {
     position: absolute;
@@ -370,9 +374,11 @@
     margin-top: 8px;
   }
   .dash-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px;
-    letter-spacing: 2px;
+    font-family: 'Anton', sans-serif;
+    font-size: 44px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
   .dash-meta {
     font-size: 14px;
@@ -386,18 +392,20 @@
     position: relative;
   }
   .dash-overall-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     color: var(--text-muted);
     margin-bottom: 4px;
   }
   .dash-overall-rating {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 2px;
+    font-family: 'Anton', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
   .dash-overall-ratio {
     font-size: 14px;
@@ -418,6 +426,7 @@
     padding: 24px;
     position: relative;
     overflow: hidden;
+    border-radius: 12px;
   }
   .stat-card::before {
     content: '';
@@ -427,27 +436,28 @@
     right: 0;
     height: 3px;
   }
-  .stat-card.bench::before { background: var(--red); }
+  .stat-card.bench::before { background: #000; }
   .stat-card.squat::before { background: var(--blue); }
   .stat-card.deadlift::before { background: var(--orange); }
   .stat-lift-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     color: var(--text-muted);
     margin-bottom: 8px;
   }
   .stat-1rm {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    font-weight: 400;
     line-height: 1;
     margin-bottom: 4px;
   }
   .stat-unit {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 18px;
     color: var(--text-muted);
     font-weight: 400;
   }
@@ -462,13 +472,14 @@
   .stat-gain .label { color: var(--text-muted); }
   .stat-badge {
     display: inline-block;
-    padding: 4px 12px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
+    padding: 4px 14px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     margin-top: 12px;
+    border-radius: 300px;
   }
   .stat-ratio {
     font-size: 14px;
@@ -496,19 +507,21 @@
     border: 1px solid var(--border);
     padding: 20px;
     text-align: center;
+    border-radius: 12px;
   }
   .summary-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     color: var(--text-muted);
     margin-bottom: 6px;
   }
   .summary-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
+    font-family: 'Anton', sans-serif;
+    font-size: 34px;
+    font-weight: 400;
     line-height: 1;
   }
   .summary-sub {
@@ -520,9 +533,11 @@
   /* ACCESSORIES TABLE */
   .accessories-section { margin-bottom: 30px; }
   .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 2px;
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     margin-bottom: 16px;
     display: flex;
     align-items: center;
@@ -539,11 +554,11 @@
     border-collapse: collapse;
   }
   .acc-table th {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: var(--text-muted);
     text-align: left;
     padding: 10px 16px;
@@ -558,8 +573,9 @@
 
   /* FOCUS RECOMMENDATION */
   .focus-box {
-    background: linear-gradient(135deg, rgba(227, 0, 15, 0.1), rgba(227, 0, 15, 0.05));
-    border: 1px solid var(--red);
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 12px;
     padding: 20px 24px;
     margin-bottom: 30px;
     display: flex;
@@ -568,11 +584,11 @@
   }
   .focus-icon { font-size: 28px; }
   .focus-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
   }
 
   /* DATA IMPORT MODAL */
@@ -580,7 +596,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.5);
     z-index: 200;
     justify-content: center;
     align-items: center;
@@ -589,6 +605,7 @@
   .modal {
     background: var(--surface);
     border: 1px solid var(--border);
+    border-radius: 16px;
     padding: 40px;
     max-width: 700px;
     width: 90%;
@@ -596,9 +613,11 @@
     overflow-y: auto;
   }
   .modal-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 2px;
+    font-family: 'Anton', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     margin-bottom: 8px;
   }
   .modal-desc {
@@ -613,20 +632,20 @@
   }
   .modal-tab {
     padding: 10px 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     background: var(--surface2);
     color: var(--text-muted);
     border: 1px solid var(--border);
     cursor: pointer;
     transition: all 0.2s;
   }
-  .modal-tab:first-child { border-radius: 4px 0 0 4px; }
-  .modal-tab:last-child { border-radius: 0 4px 4px 0; }
-  .modal-tab.active { background: var(--red); color: white; border-color: var(--red); }
+  .modal-tab:first-child { border-radius: 300px 0 0 300px; }
+  .modal-tab:last-child { border-radius: 0 300px 300px 0; }
+  .modal-tab.active { background: #000; color: #fff; border-color: #000; }
   .modal-panel { display: none; }
   .modal-panel.active { display: block; }
   .file-drop {
@@ -639,11 +658,11 @@
   }
   .file-drop:hover, .file-drop.dragover { border-color: var(--red); }
   .file-drop-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     color: var(--text-muted);
   }
   .json-input {
@@ -669,7 +688,7 @@
     color: white;
     border: none;
     padding: 12px 28px;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 14px;
     text-transform: uppercase;
@@ -677,13 +696,13 @@
     cursor: pointer;
     transition: all 0.2s;
   }
-  .btn-primary:hover { background: #ff1a2e; }
+  .btn-primary:hover { background: #222; }
   .btn-secondary {
     background: var(--surface2);
     color: var(--text-muted);
     border: 1px solid var(--border);
     padding: 12px 28px;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 14px;
     text-transform: uppercase;
@@ -708,7 +727,7 @@
     display: none;
     align-items: center;
     gap: 8px;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 14px;
     text-transform: uppercase;
@@ -732,7 +751,7 @@
     margin-top: 40px;
   }
   .footer-line1 {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 12px;
     text-transform: uppercase;
@@ -753,7 +772,7 @@
   }
   .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
   .empty-state-text {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 18px;
     text-transform: uppercase;
@@ -895,13 +914,13 @@
     background: var(--bg);
   }
   .gamify-level-num {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 42px;
     line-height: 1;
     color: var(--red);
   }
   .gamify-level-label {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 10px;
     text-transform: uppercase;
@@ -910,13 +929,13 @@
   }
   .gamify-level-info { flex: 1; }
   .gamify-level-title {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 28px;
     letter-spacing: 2px;
     margin-bottom: 4px;
   }
   .gamify-level-sessions {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 20px;
     text-transform: uppercase;
@@ -943,7 +962,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
@@ -990,7 +1009,7 @@
     margin-bottom: 8px;
   }
   .gamify-reward-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 15px;
     text-transform: uppercase;
@@ -1003,7 +1022,7 @@
     margin-bottom: 8px;
   }
   .gamify-reward-status {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 12px;
     text-transform: uppercase;
@@ -1054,7 +1073,7 @@
   .gamify-badge-icon { font-size: 28px; }
   .gamify-badge-info {}
   .gamify-badge-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 13px;
     text-transform: uppercase;
@@ -1111,13 +1130,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 18px;
     color: var(--text);
   }
   .gamify-challenge-info { flex: 1; }
   .gamify-challenge-name {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 14px;
     text-transform: uppercase;
@@ -1145,7 +1164,7 @@
     align-items: center;
     gap: 4px;
     padding: 3px 10px;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Epilogue', sans-serif;
     font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
@@ -1187,31 +1206,18 @@
   /* ======================== */
   /* LOGIN SCREEN             */
   /* ======================== */
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600&display=swap');
+
   .login-screen {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: #000;
+    background: #f5f5f5;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 1;
     transition: opacity 0.5s ease;
-  }
-  .login-screen::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url('rtb-bg.jpg') center center / cover no-repeat;
-    opacity: 0.15;
-    pointer-events: none;
-  }
-  .login-screen::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 100%);
-    pointer-events: none;
   }
   .login-screen.hidden {
     opacity: 0;
@@ -1220,122 +1226,127 @@
   .login-card {
     position: relative;
     z-index: 1;
-    background: rgba(17,17,17,0.95);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--red);
-    border-radius: 8px;
-    padding: 50px 44px;
-    max-width: 420px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 56px 48px;
+    max-width: 440px;
     width: 90%;
     text-align: center;
-    box-shadow: 0 0 80px rgba(227,0,15,0.12), 0 20px 60px rgba(0,0,0,0.6);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
   }
   .login-logo-wrap {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
+    background: #000;
+    border-radius: 12px;
+    padding: 20px;
+    display: inline-block;
   }
   .login-logo {
-    height: 60px;
+    height: 44px;
     mix-blend-mode: screen;
   }
   .login-divider {
-    width: 60px;
-    height: 2px;
-    background: var(--red);
-    margin: 0 auto 24px;
+    width: 40px;
+    height: 3px;
+    background: #000;
+    margin: 0 auto 28px;
+    border-radius: 2px;
   }
   .login-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 38px;
-    letter-spacing: 4px;
-    color: #fff;
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #000;
     margin-bottom: 8px;
+    line-height: 1.1;
   }
   .login-title span {
-    color: var(--red);
+    display: block;
+    color: #000;
   }
   .login-sub {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin-bottom: 32px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #797979;
+    margin-bottom: 36px;
+    line-height: 1.5;
   }
   .login-form {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
   }
   .login-input {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 16px 20px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 17px;
-    color: #fff;
+    background: #f5f5f5;
+    border: 2px solid #d9d9d9;
+    border-radius: 300px;
+    padding: 16px 28px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 16px;
+    color: #000;
     outline: none;
     transition: border-color 0.2s;
     text-align: center;
-    letter-spacing: 0.5px;
   }
   .login-input::placeholder {
-    color: #555;
+    color: #bbb;
   }
   .login-input:focus {
-    border-color: var(--red);
-    box-shadow: 0 0 0 3px rgba(227,0,15,0.15);
+    border-color: #000;
   }
   .login-btn {
-    background: var(--red);
+    background: #000;
     color: #fff;
     border: none;
-    border-radius: 6px;
-    padding: 16px 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: 3px;
+    border-radius: 300px;
+    padding: 16px 28px;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s;
   }
   .login-btn:hover {
-    background: #ff1a2e;
+    background: #222;
     transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(227,0,15,0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   }
   .login-btn:active {
     transform: translateY(0);
   }
   .login-error {
-    color: var(--red);
-    font-family: 'Barlow', sans-serif;
+    color: #E3000F;
+    font-family: 'Epilogue', sans-serif;
     font-size: 14px;
-    margin-top: 12px;
+    margin-top: 8px;
     min-height: 20px;
   }
   .login-footer {
-    margin-top: 28px;
-    border-top: 1px solid var(--border);
-    padding-top: 20px;
+    margin-top: 32px;
+    border-top: 1px solid #e8e8e8;
+    padding-top: 24px;
   }
   .login-skip {
     background: none;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px 24px;
-    color: var(--text-muted);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    letter-spacing: 1px;
+    border: 1px solid #d9d9d9;
+    border-radius: 300px;
+    padding: 10px 28px;
+    color: #797979;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.2s;
   }
   .login-skip:hover {
-    color: #fff;
-    border-color: #555;
+    color: #000;
+    border-color: #000;
   }
 
   /* Logged-in header indicator */
@@ -1343,18 +1354,18 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    letter-spacing: 1px;
-    color: var(--text-muted);
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #999;
     cursor: pointer;
-    padding: 6px 14px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
+    padding: 6px 16px;
+    border: 1px solid #333;
+    border-radius: 300px;
     transition: all 0.2s;
   }
-  .logged-in-user:hover { border-color: #555; color: #fff; }
+  .logged-in-user:hover { border-color: #666; color: #fff; }
   .logged-in-user .user-dot {
     width: 8px; height: 8px;
     background: var(--green);
@@ -1362,9 +1373,10 @@
   }
 
   @media (max-width: 480px) {
-    .login-card { padding: 36px 24px; }
-    .login-title { font-size: 30px; }
-    .login-logo { height: 48px; }
+    .login-card { padding: 40px 24px; }
+    .login-title { font-size: 28px; }
+    .login-logo { height: 36px; }
+    .login-logo-wrap { padding: 16px; }
   }
 </style>
 </head>
@@ -1377,15 +1389,15 @@
       <img class="login-logo" id="loginLogo" src="" alt="RTB Gym">
     </div>
     <div class="login-divider"></div>
-    <h1 class="login-title">STRENGTH <span>LEADERBOARD</span></h1>
-    <p class="login-sub">Enter your email to view your dashboard</p>
+    <h1 class="login-title">STRENGTH<span>SCOREBOARD</span></h1>
+    <p class="login-sub">Enter your email to view your personal dashboard</p>
     <div class="login-form">
       <input type="email" id="loginEmail" class="login-input" placeholder="your@email.com" autocomplete="email" inputmode="email">
-      <button id="loginBtn" class="login-btn">VIEW MY DASHBOARD</button>
+      <button id="loginBtn" class="login-btn">VIEW MY DASHBOARD →</button>
     </div>
     <div id="loginError" class="login-error"></div>
     <div class="login-footer">
-      <button id="loginSkip" class="login-skip">View full leaderboard instead</button>
+      <button id="loginSkip" class="login-skip">View full scoreboard instead →</button>
     </div>
   </div>
 </div>
@@ -2321,6 +2333,69 @@ function renderMemberDashboard(memberId) {
 
   container.appendChild(dashHeader);
 
+  // SECTION TITLE — BIG THREE (moved up, right after header)
+  var sTitle = el('div', { className: 'section-title' }, 'Big Three \u2014 Strength Levels');
+  container.appendChild(sTitle);
+
+  // STAT GRID — BIG THREE
+  var statGrid = el('div', { className: 'stat-grid' });
+  liftLevels.forEach(function(l) {
+    var card = el('div', { className: 'stat-card ' + l.cssClass });
+    card.appendChild(el('div', { className: 'stat-lift-name' }, l.label));
+
+    var rankCircle = el('div', { className: 'stat-rank-circle' });
+    rankCircle.appendChild(el('div', { className: 'stat-rank-num' }, '#' + liftRanks[l.key]));
+    rankCircle.appendChild(el('div', { className: 'stat-rank-label' }, 'of ' + totalCount));
+    card.appendChild(rankCircle);
+
+    var rm = el('div', { className: 'stat-1rm' });
+    rm.textContent = l.best.weight;
+    rm.appendChild(el('span', { className: 'stat-unit' }, ' kg'));
+    card.appendChild(rm);
+
+    card.appendChild(el('div', { className: 'stat-ratio' }, 'Ratio: ' + l.ratio + 'x BW'));
+
+    var gainDiv = el('div', { className: 'stat-gain' });
+    gainDiv.appendChild(el('span', { className: 'up' }, '+' + l.gain + ' kg'));
+    gainDiv.appendChild(el('span', { className: 'label' }, '(+' + l.gainPct + '% since ' + formatDate(l.first.date) + ')'));
+    card.appendChild(gainDiv);
+
+    var badgeRow = el('div', { className: 'stat-badge-row' });
+    var bwBadge = el('div', { className: 'stat-badge', style: {
+      background: l.level.color + '22', color: l.level.color, border: '1px solid ' + l.level.color
+    } }, 'Level ' + l.level.level + ' \u2014 ' + l.level.name);
+    badgeRow.appendChild(bwBadge);
+
+    if (l.ageLevel) {
+      var ageBadge = el('div', { className: 'stat-badge', style: {
+        background: l.ageLevel.color + '22', color: l.ageLevel.color, border: '1px solid ' + l.ageLevel.color
+      } }, 'Age: L' + l.ageLevel.level + ' \u2014 ' + l.ageLevel.name);
+      badgeRow.appendChild(ageBadge);
+    }
+    card.appendChild(badgeRow);
+
+    if (l.nextLevel) {
+      var nextDiv = el('div', { className: 'stat-next-level' });
+      nextDiv.appendChild(document.createTextNode('Need '));
+      nextDiv.appendChild(el('strong', null, l.nextLevel.needed + ' kg'));
+      var levelName = STANDARDS_DATA.levels[String(l.nextLevel.level)] ? STANDARDS_DATA.levels[String(l.nextLevel.level)].name : '';
+      nextDiv.appendChild(document.createTextNode(' more to reach Level ' + l.nextLevel.level + ' (' + levelName + ')'));
+      card.appendChild(nextDiv);
+    } else {
+      card.appendChild(el('div', { className: 'stat-next-level', style: { color: 'var(--gold)' } }, 'Maximum level reached!'));
+    }
+
+    var rankType = getRankBadgeType(liftRanks[l.key], totalCount);
+    if (rankType) {
+      var rankBadges = el('div', { className: 'gamify-rank-badges' });
+      rankBadges.appendChild(el('div', { className: 'gamify-rank-badge ' + rankType }, getRankBadgeLabel(rankType)));
+      card.appendChild(rankBadges);
+    }
+
+    statGrid.appendChild(card);
+  });
+  container.appendChild(statGrid);
+
   // FOCUS BOX
   var focusBox = el('div', { className: 'focus-box' });
   focusBox.appendChild(el('div', { className: 'focus-icon' }, '\uD83C\uDFAF'));
@@ -2345,7 +2420,7 @@ function renderMemberDashboard(memberId) {
   } });
   var badge = el('div', { style: {
     background: 'var(--surface)', border: '2px solid var(--red)', padding: '20px 48px',
-    fontFamily: "'Bebas Neue', sans-serif", fontSize: '36px', letterSpacing: '4px',
+    fontFamily: "'Anton', sans-serif", fontSize: '36px', letterSpacing: '4px',
     color: 'var(--red)', textTransform: 'uppercase', textAlign: 'center'
   } });
   badge.textContent = 'Coming Soon';
@@ -2412,72 +2487,6 @@ function renderMemberDashboard(memberId) {
     summaryRow.appendChild(card);
   });
   container.appendChild(summaryRow);
-
-  // SECTION TITLE
-  var sTitle = el('div', { className: 'section-title' }, 'Big Three \u2014 Strength Levels');
-  container.appendChild(sTitle);
-
-  // STAT GRID
-  var statGrid = el('div', { className: 'stat-grid' });
-  liftLevels.forEach(function(l) {
-    var card = el('div', { className: 'stat-card ' + l.cssClass });
-    card.appendChild(el('div', { className: 'stat-lift-name' }, l.label));
-
-    // Rank circle (top right)
-    var rankCircle = el('div', { className: 'stat-rank-circle' });
-    rankCircle.appendChild(el('div', { className: 'stat-rank-num' }, '#' + liftRanks[l.key]));
-    rankCircle.appendChild(el('div', { className: 'stat-rank-label' }, 'of ' + totalCount));
-    card.appendChild(rankCircle);
-
-    var rm = el('div', { className: 'stat-1rm' });
-    rm.textContent = l.best.weight;
-    rm.appendChild(el('span', { className: 'stat-unit' }, ' kg'));
-    card.appendChild(rm);
-
-    card.appendChild(el('div', { className: 'stat-ratio' }, 'Ratio: ' + l.ratio + 'x BW'));
-
-    var gainDiv = el('div', { className: 'stat-gain' });
-    gainDiv.appendChild(el('span', { className: 'up' }, '+' + l.gain + ' kg'));
-    gainDiv.appendChild(el('span', { className: 'label' }, '(+' + l.gainPct + '% since ' + formatDate(l.first.date) + ')'));
-    card.appendChild(gainDiv);
-
-    // Badge row — BW level + Age level side by side
-    var badgeRow = el('div', { className: 'stat-badge-row' });
-    var bwBadge = el('div', { className: 'stat-badge', style: {
-      background: l.level.color + '22', color: l.level.color, border: '1px solid ' + l.level.color
-    } }, 'Level ' + l.level.level + ' \u2014 ' + l.level.name);
-    badgeRow.appendChild(bwBadge);
-
-    if (l.ageLevel) {
-      var ageBadge = el('div', { className: 'stat-badge', style: {
-        background: l.ageLevel.color + '22', color: l.ageLevel.color, border: '1px solid ' + l.ageLevel.color
-      } }, 'Age: L' + l.ageLevel.level + ' \u2014 ' + l.ageLevel.name);
-      badgeRow.appendChild(ageBadge);
-    }
-    card.appendChild(badgeRow);
-
-    if (l.nextLevel) {
-      var nextDiv = el('div', { className: 'stat-next-level' });
-      nextDiv.appendChild(document.createTextNode('Need '));
-      nextDiv.appendChild(el('strong', null, l.nextLevel.needed + ' kg'));
-      var levelName = STANDARDS_DATA.levels[String(l.nextLevel.level)] ? STANDARDS_DATA.levels[String(l.nextLevel.level)].name : '';
-      nextDiv.appendChild(document.createTextNode(' more to reach Level ' + l.nextLevel.level + ' (' + levelName + ')'));
-      card.appendChild(nextDiv);
-    } else {
-      card.appendChild(el('div', { className: 'stat-next-level', style: { color: 'var(--gold)' } }, 'Maximum level reached!'));
-    }
-
-    // RANK BADGES (Top 5%/10%/25%)
-    var rankType = getRankBadgeType(liftRanks[l.key], totalCount);
-    if (rankType) {
-      var rankBadges = el('div', { className: 'gamify-rank-badges' });
-      rankBadges.appendChild(el('div', { className: 'gamify-rank-badge ' + rankType }, getRankBadgeLabel(rankType)));
-      card.appendChild(rankBadges);
-    }
-
-    statGrid.appendChild(card);
-  });
-  container.appendChild(statGrid);
 
   // ACCESSORIES
   var accEntries = [];
