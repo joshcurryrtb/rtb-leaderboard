@@ -1644,11 +1644,129 @@
     font-size: 14px; color: var(--text-muted);
   }
 
+  /* Day 1 vs Now comparison */
+  .day1-section {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .day1-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .day1-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .day1-goals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .day1-goal-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .day1-lifts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .day1-lift-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .day1-lift-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .day1-lift-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .day1-lift-val {
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .day1-lift-arrow {
+    font-size: 16px;
+    color: var(--text-muted);
+  }
+  .day1-lift-now {
+    font-size: 20px;
+    font-weight: 800;
+    color: #22c55e;
+  }
+  .day1-lift-gain {
+    font-size: 12px;
+    font-weight: 700;
+    color: #22c55e;
+    margin-top: 4px;
+  }
+  .day1-lift-empty {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .day1-bw-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .day1-notes {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border-left: 3px solid var(--border);
+  }
+  .day1-notes-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .day1-loading {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
   @media (max-width: 768px) {
     .trial-hero { padding: 30px 20px; margin: -16px -16px 20px; }
     .trial-hero-day { font-size: 48px; }
     .trial-hero-name { font-size: 22px; }
     .trial-quote-text { font-size: 18px; }
+    .day1-lifts-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .day1-lifts-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 480px) {
@@ -2594,6 +2712,128 @@ var TRIAL_QUOTES = [
   "Day 21. You did it. This isn't the end — it's the beginning of everything."
 ];
 
+function fetchAndRenderDay1(member, container) {
+  var emailSlug = (member.email || '').replace(/[^a-z0-9]/g, '_');
+  var url = 'https://raw.githubusercontent.com/joshcurryrtb/rtb-onboarding/main/responses/' + emailSlug + '.json?v=' + Date.now();
+
+  var placeholder = el('div', { className: 'day1-loading' }, 'Loading your Day 1 data...');
+  container.appendChild(placeholder);
+
+  fetch(url)
+    .then(function(r) { if (!r.ok) throw new Error('not found'); return r.json(); })
+    .then(function(ob) {
+      placeholder.remove();
+
+      var section = el('div', { className: 'day1-section' });
+      section.appendChild(el('div', { className: 'day1-title' }, 'Day 1 vs Now'));
+      section.appendChild(el('div', { className: 'day1-subtitle' }, 'Your starting point from ' + (ob.submittedDate || 'Day 1')));
+
+      // Goals
+      if (ob.goals && ob.goals.length > 0) {
+        section.appendChild(el('div', { className: 'day1-notes-label' }, 'Your Goals'));
+        var goalsWrap = el('div', { className: 'day1-goals' });
+        ob.goals.forEach(function(g) {
+          goalsWrap.appendChild(el('span', { className: 'day1-goal-tag' }, g));
+        });
+        section.appendChild(goalsWrap);
+      }
+
+      // Lift comparison
+      var benchNow = getBest1RM(member.lifts && member.lifts.bench);
+      var squatNow = getBest1RM(member.lifts && member.lifts.squat);
+      var deadliftNow = getBest1RM(member.lifts && member.lifts.deadlift);
+      var startLifts = ob.startingLifts || {};
+
+      section.appendChild(el('div', { className: 'day1-notes-label' }, 'Lifts — Then vs Now'));
+      var liftsGrid = el('div', { className: 'day1-lifts-grid' });
+
+      [
+        { label: 'Bench', start: startLifts.bench, now: benchNow.weight },
+        { label: 'Squat', start: startLifts.squat, now: squatNow.weight },
+        { label: 'Deadlift', start: startLifts.deadlift, now: deadliftNow.weight }
+      ].forEach(function(lift) {
+        var card = el('div', { className: 'day1-lift-card' });
+        card.appendChild(el('div', { className: 'day1-lift-label' }, lift.label));
+
+        if (lift.start || lift.now) {
+          var row = el('div', { className: 'day1-lift-row' });
+          row.appendChild(el('span', { className: 'day1-lift-val' }, (lift.start || 0) + ''));
+          row.appendChild(el('span', { className: 'day1-lift-arrow' }, '\u2192'));
+          row.appendChild(el('span', { className: 'day1-lift-now' }, (lift.now || 0) + ''));
+          card.appendChild(row);
+
+          var gain = (lift.now || 0) - (lift.start || 0);
+          if (gain > 0) {
+            card.appendChild(el('div', { className: 'day1-lift-gain' }, '+' + gain + ' kg'));
+          } else if (gain === 0 && lift.now > 0) {
+            card.appendChild(el('div', { className: 'day1-lift-gain', style: { color: 'var(--text-muted)' } }, 'Same'));
+          }
+        } else {
+          card.appendChild(el('div', { className: 'day1-lift-empty' }, 'Not yet'));
+        }
+
+        liftsGrid.appendChild(card);
+      });
+      section.appendChild(liftsGrid);
+
+      // Total comparison
+      var startTotal = (startLifts.bench || 0) + (startLifts.squat || 0) + (startLifts.deadlift || 0);
+      var nowTotal = benchNow.weight + squatNow.weight + deadliftNow.weight;
+      if (startTotal > 0 || nowTotal > 0) {
+        var totalCard = el('div', { className: 'day1-lift-card', style: { marginBottom: '16px' } });
+        totalCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Total'));
+        var totalRow = el('div', { className: 'day1-lift-row' });
+        totalRow.appendChild(el('span', { className: 'day1-lift-val' }, startTotal + ''));
+        totalRow.appendChild(el('span', { className: 'day1-lift-arrow' }, '\u2192'));
+        totalRow.appendChild(el('span', { className: 'day1-lift-now' }, Math.round(nowTotal * 10) / 10 + ''));
+        totalCard.appendChild(totalRow);
+        var totalGain = Math.round((nowTotal - startTotal) * 10) / 10;
+        if (totalGain > 0) {
+          totalCard.appendChild(el('div', { className: 'day1-lift-gain' }, '+' + totalGain + ' kg total'));
+        }
+        section.appendChild(totalCard);
+      }
+
+      // Chin ups & Push ups
+      if (ob.chinUps !== undefined || ob.pushUps !== undefined) {
+        section.appendChild(el('div', { className: 'day1-notes-label' }, 'Bodyweight — Day 1'));
+        var bwGrid = el('div', { className: 'day1-bw-grid' });
+        var chinVal = ob.chinUps === 0 ? 'Not yet' : (typeof ob.chinUps === 'number' ? ob.chinUps + ' reps' : (ob.chinUps || '\u2014'));
+        var pushVal = ob.pushUps === 0 ? 'Not yet' : (typeof ob.pushUps === 'number' ? ob.pushUps + ' reps' : (ob.pushUps || '\u2014'));
+
+        var chinCard = el('div', { className: 'day1-lift-card' });
+        chinCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Chin Ups'));
+        chinCard.appendChild(el('div', { className: 'day1-lift-val' }, chinVal));
+        bwGrid.appendChild(chinCard);
+
+        var pushCard = el('div', { className: 'day1-lift-card' });
+        pushCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Push Ups'));
+        pushCard.appendChild(el('div', { className: 'day1-lift-val' }, pushVal));
+        bwGrid.appendChild(pushCard);
+
+        section.appendChild(bwGrid);
+      }
+
+      // Injuries
+      if (ob.injuries && ob.injuries !== 'None') {
+        section.appendChild(el('div', { className: 'day1-notes-label' }, 'Injuries / Limitations'));
+        section.appendChild(el('div', { className: 'day1-notes' }, ob.injuries));
+      }
+
+      // Notes
+      if (ob.notes && ob.notes !== 'None') {
+        section.appendChild(el('div', { className: 'day1-notes-label' }, 'Notes from Day 1'));
+        section.appendChild(el('div', { className: 'day1-notes' }, ob.notes));
+      }
+
+      container.appendChild(section);
+    })
+    .catch(function() {
+      placeholder.remove();
+      // No onboarding data — just skip silently
+    });
+}
+
 function renderTrialDashboard(member, container) {
   var day = member.dayNumber || 1;
   if (day < 1) day = 1;
@@ -2675,6 +2915,9 @@ function renderTrialDashboard(member, container) {
     cta.appendChild(el('div', { className: 'trial-cta-text' }, daysLeft > 0 ? 'Talk to your coach about continuing your strength journey.' : 'Ask your coach about membership options to keep your momentum going.'));
     container.appendChild(cta);
   }
+
+  // Day 1 vs Now — fetch onboarding data
+  fetchAndRenderDay1(member, container);
 
   container.classList.add('active');
 }
@@ -2979,6 +3222,9 @@ function renderMemberDashboard(memberId) {
     summaryRow.appendChild(card);
   });
   container.appendChild(summaryRow);
+
+  // Day 1 vs Now — fetch onboarding data
+  fetchAndRenderDay1(member, container);
 
   container.classList.add('active');
 }
