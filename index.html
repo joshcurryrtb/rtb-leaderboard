@@ -2738,34 +2738,56 @@ function fetchAndRenderDay1(member, container) {
         section.appendChild(goalsWrap);
       }
 
-      // Lift comparison
-      var benchNow = getBest1RM(member.lifts && member.lifts.bench);
-      var squatNow = getBest1RM(member.lifts && member.lifts.squat);
-      var deadliftNow = getBest1RM(member.lifts && member.lifts.deadlift);
+      // Lift comparison — check if 1RM or working max
+      function getBestLiftInfo(entries) {
+        if (!entries || entries.length === 0) return { weight: 0, date: null, is1RM: false, reps: 0, rawWeight: 0 };
+        var best = 0, bestDate = null, bestReps = 0, bestRaw = 0;
+        for (var i = 0; i < entries.length; i++) {
+          var e = entries[i];
+          var est = calc1RM(e.weight, e.reps);
+          if (est > best) { best = est; bestDate = e.date; bestReps = e.reps; bestRaw = e.weight; }
+        }
+        return { weight: best, date: bestDate, is1RM: bestReps <= 1, reps: bestReps, rawWeight: bestRaw };
+      }
+
+      var benchInfo = getBestLiftInfo(member.lifts && member.lifts.bench);
+      var squatInfo = getBestLiftInfo(member.lifts && member.lifts.squat);
+      var deadliftInfo = getBestLiftInfo(member.lifts && member.lifts.deadlift);
       var startLifts = ob.startingLifts || {};
 
       section.appendChild(el('div', { className: 'day1-notes-label' }, 'Lifts — Then vs Now'));
       var liftsGrid = el('div', { className: 'day1-lifts-grid' });
 
       [
-        { label: 'Bench', start: startLifts.bench, now: benchNow.weight },
-        { label: 'Squat', start: startLifts.squat, now: squatNow.weight },
-        { label: 'Deadlift', start: startLifts.deadlift, now: deadliftNow.weight }
+        { label: 'Bench', start: startLifts.bench, info: benchInfo },
+        { label: 'Squat', start: startLifts.squat, info: squatInfo },
+        { label: 'Deadlift', start: startLifts.deadlift, info: deadliftInfo }
       ].forEach(function(lift) {
         var card = el('div', { className: 'day1-lift-card' });
         card.appendChild(el('div', { className: 'day1-lift-label' }, lift.label));
 
-        if (lift.start || lift.now) {
+        if (lift.start || lift.info.weight) {
+          // Show type label: 1RM or Working Max
+          var typeLabel = lift.info.weight > 0 ? (lift.info.is1RM ? '1RM' : 'Working Max') : '';
+          if (typeLabel) {
+            card.appendChild(el('div', { style: { fontSize: '10px', fontWeight: '700', letterSpacing: '1px', color: lift.info.is1RM ? '#22c55e' : 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' } }, typeLabel));
+          }
+
           var row = el('div', { className: 'day1-lift-row' });
           row.appendChild(el('span', { className: 'day1-lift-val' }, (lift.start || 0) + ''));
           row.appendChild(el('span', { className: 'day1-lift-arrow' }, '\u2192'));
-          row.appendChild(el('span', { className: 'day1-lift-now' }, (lift.now || 0) + ''));
+          row.appendChild(el('span', { className: 'day1-lift-now' }, lift.info.weight + ''));
           card.appendChild(row);
 
-          var gain = (lift.now || 0) - (lift.start || 0);
+          // Show raw weight x reps if it's a working max
+          if (!lift.info.is1RM && lift.info.weight > 0) {
+            card.appendChild(el('div', { style: { fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' } }, lift.info.rawWeight + 'kg x ' + lift.info.reps + ' reps'));
+          }
+
+          var gain = lift.info.weight - (lift.start || 0);
           if (gain > 0) {
-            card.appendChild(el('div', { className: 'day1-lift-gain' }, '+' + gain + ' kg'));
-          } else if (gain === 0 && lift.now > 0) {
+            card.appendChild(el('div', { className: 'day1-lift-gain' }, '+' + Math.round(gain * 10) / 10 + ' kg'));
+          } else if (gain === 0 && lift.info.weight > 0) {
             card.appendChild(el('div', { className: 'day1-lift-gain', style: { color: 'var(--text-muted)' } }, 'Same'));
           }
         } else {
@@ -2778,7 +2800,7 @@ function fetchAndRenderDay1(member, container) {
 
       // Total comparison
       var startTotal = (startLifts.bench || 0) + (startLifts.squat || 0) + (startLifts.deadlift || 0);
-      var nowTotal = benchNow.weight + squatNow.weight + deadliftNow.weight;
+      var nowTotal = benchInfo.weight + squatInfo.weight + deadliftInfo.weight;
       if (startTotal > 0 || nowTotal > 0) {
         var totalCard = el('div', { className: 'day1-lift-card', style: { marginBottom: '16px' } });
         totalCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Total'));
