@@ -2712,147 +2712,198 @@ var TRIAL_QUOTES = [
   "Day 21. You did it. This isn't the end — it's the beginning of everything."
 ];
 
-function fetchAndRenderDay1(member, container) {
-  var emailSlug = (member.email || '').replace(/[^a-z0-9]/g, '_');
-  var url = 'https://raw.githubusercontent.com/joshcurryrtb/rtb-onboarding/main/responses/' + emailSlug + '.json?v=' + Date.now();
+function getBestLiftInfo(entries) {
+  if (!entries || entries.length === 0) return { weight: 0, date: null, is1RM: false, reps: 0, rawWeight: 0 };
+  var best = 0, bestDate = null, bestReps = 0, bestRaw = 0;
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i];
+    var est = calc1RM(e.weight, e.reps);
+    if (est > best) { best = est; bestDate = e.date; bestReps = e.reps; bestRaw = e.weight; }
+  }
+  return { weight: best, date: bestDate, is1RM: bestReps <= 1, reps: bestReps, rawWeight: bestRaw };
+}
 
-  var placeholder = el('div', { className: 'day1-loading' }, 'Loading your Day 1 data...');
-  container.appendChild(placeholder);
+function getFirstLiftInfo(entries) {
+  if (!entries || entries.length === 0) return { weight: 0, date: null, is1RM: false, reps: 0, rawWeight: 0 };
+  var sorted = entries.slice().sort(function(a, b) { return a.date.localeCompare(b.date); });
+  var e = sorted[0];
+  var est = calc1RM(e.weight, e.reps);
+  return { weight: est, date: e.date, is1RM: e.reps <= 1, reps: e.reps, rawWeight: e.weight };
+}
 
-  fetch(url)
-    .then(function(r) { if (!r.ok) throw new Error('not found'); return r.json(); })
-    .then(function(ob) {
-      placeholder.remove();
+function renderDay1Section(member, container, onboardingData) {
+  var ob = onboardingData;
+  var hasOnboarding = !!ob;
 
+  // Get current best lifts
+  var benchNow = getBestLiftInfo(member.lifts && member.lifts.bench);
+  var squatNow = getBestLiftInfo(member.lifts && member.lifts.squat);
+  var deadliftNow = getBestLiftInfo(member.lifts && member.lifts.deadlift);
+
+  // Get starting lifts — from onboarding form OR first TrainHeroic entry
+  var benchFirst, squatFirst, deadliftFirst, startDate;
+  if (hasOnboarding && ob.startingLifts && (ob.startingLifts.bench || ob.startingLifts.squat || ob.startingLifts.deadlift)) {
+    benchFirst = { weight: ob.startingLifts.bench || 0 };
+    squatFirst = { weight: ob.startingLifts.squat || 0 };
+    deadliftFirst = { weight: ob.startingLifts.deadlift || 0 };
+    startDate = ob.submittedDate || 'Day 1';
+  } else {
+    benchFirst = getFirstLiftInfo(member.lifts && member.lifts.bench);
+    squatFirst = getFirstLiftInfo(member.lifts && member.lifts.squat);
+    deadliftFirst = getFirstLiftInfo(member.lifts && member.lifts.deadlift);
+    // Find earliest date across all lifts
+    var dates = [benchFirst.date, squatFirst.date, deadliftFirst.date].filter(Boolean).sort();
+    startDate = dates.length > 0 ? dates[0] : null;
+  }
+
+  // Skip if no lift data at all
+  if (benchNow.weight === 0 && squatNow.weight === 0 && deadliftNow.weight === 0) {
+    // Still show onboarding info if available (goals, injuries etc)
+    if (hasOnboarding) {
       var section = el('div', { className: 'day1-section' });
-      section.appendChild(el('div', { className: 'day1-title' }, 'Day 1 vs Now'));
-      section.appendChild(el('div', { className: 'day1-subtitle' }, 'Your starting point from ' + (ob.submittedDate || 'Day 1')));
-
-      // Goals
+      section.appendChild(el('div', { className: 'day1-title' }, 'Your Starting Point'));
+      section.appendChild(el('div', { className: 'day1-subtitle' }, 'From ' + (ob.submittedDate || 'Day 1')));
       if (ob.goals && ob.goals.length > 0) {
         section.appendChild(el('div', { className: 'day1-notes-label' }, 'Your Goals'));
-        var goalsWrap = el('div', { className: 'day1-goals' });
-        ob.goals.forEach(function(g) {
-          goalsWrap.appendChild(el('span', { className: 'day1-goal-tag' }, g));
-        });
-        section.appendChild(goalsWrap);
+        var gw = el('div', { className: 'day1-goals' });
+        ob.goals.forEach(function(g) { gw.appendChild(el('span', { className: 'day1-goal-tag' }, g)); });
+        section.appendChild(gw);
       }
-
-      // Lift comparison — check if 1RM or working max
-      function getBestLiftInfo(entries) {
-        if (!entries || entries.length === 0) return { weight: 0, date: null, is1RM: false, reps: 0, rawWeight: 0 };
-        var best = 0, bestDate = null, bestReps = 0, bestRaw = 0;
-        for (var i = 0; i < entries.length; i++) {
-          var e = entries[i];
-          var est = calc1RM(e.weight, e.reps);
-          if (est > best) { best = est; bestDate = e.date; bestReps = e.reps; bestRaw = e.weight; }
-        }
-        return { weight: best, date: bestDate, is1RM: bestReps <= 1, reps: bestReps, rawWeight: bestRaw };
-      }
-
-      var benchInfo = getBestLiftInfo(member.lifts && member.lifts.bench);
-      var squatInfo = getBestLiftInfo(member.lifts && member.lifts.squat);
-      var deadliftInfo = getBestLiftInfo(member.lifts && member.lifts.deadlift);
-      var startLifts = ob.startingLifts || {};
-
-      section.appendChild(el('div', { className: 'day1-notes-label' }, 'Lifts — Then vs Now'));
-      var liftsGrid = el('div', { className: 'day1-lifts-grid' });
-
-      [
-        { label: 'Bench', start: startLifts.bench, info: benchInfo },
-        { label: 'Squat', start: startLifts.squat, info: squatInfo },
-        { label: 'Deadlift', start: startLifts.deadlift, info: deadliftInfo }
-      ].forEach(function(lift) {
-        var card = el('div', { className: 'day1-lift-card' });
-        card.appendChild(el('div', { className: 'day1-lift-label' }, lift.label));
-
-        if (lift.start || lift.info.weight) {
-          // Show type label: 1RM or Working Max
-          var typeLabel = lift.info.weight > 0 ? (lift.info.is1RM ? '1RM' : 'Working Max') : '';
-          if (typeLabel) {
-            card.appendChild(el('div', { style: { fontSize: '10px', fontWeight: '700', letterSpacing: '1px', color: lift.info.is1RM ? '#22c55e' : 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' } }, typeLabel));
-          }
-
-          var row = el('div', { className: 'day1-lift-row' });
-          row.appendChild(el('span', { className: 'day1-lift-val' }, (lift.start || 0) + ''));
-          row.appendChild(el('span', { className: 'day1-lift-arrow' }, '\u2192'));
-          row.appendChild(el('span', { className: 'day1-lift-now' }, lift.info.weight + ''));
-          card.appendChild(row);
-
-          // Show raw weight x reps if it's a working max
-          if (!lift.info.is1RM && lift.info.weight > 0) {
-            card.appendChild(el('div', { style: { fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' } }, lift.info.rawWeight + 'kg x ' + lift.info.reps + ' reps'));
-          }
-
-          var gain = lift.info.weight - (lift.start || 0);
-          if (gain > 0) {
-            card.appendChild(el('div', { className: 'day1-lift-gain' }, '+' + Math.round(gain * 10) / 10 + ' kg'));
-          } else if (gain === 0 && lift.info.weight > 0) {
-            card.appendChild(el('div', { className: 'day1-lift-gain', style: { color: 'var(--text-muted)' } }, 'Same'));
-          }
-        } else {
-          card.appendChild(el('div', { className: 'day1-lift-empty' }, 'Not yet'));
-        }
-
-        liftsGrid.appendChild(card);
-      });
-      section.appendChild(liftsGrid);
-
-      // Total comparison
-      var startTotal = (startLifts.bench || 0) + (startLifts.squat || 0) + (startLifts.deadlift || 0);
-      var nowTotal = benchInfo.weight + squatInfo.weight + deadliftInfo.weight;
-      if (startTotal > 0 || nowTotal > 0) {
-        var totalCard = el('div', { className: 'day1-lift-card', style: { marginBottom: '16px' } });
-        totalCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Total'));
-        var totalRow = el('div', { className: 'day1-lift-row' });
-        totalRow.appendChild(el('span', { className: 'day1-lift-val' }, startTotal + ''));
-        totalRow.appendChild(el('span', { className: 'day1-lift-arrow' }, '\u2192'));
-        totalRow.appendChild(el('span', { className: 'day1-lift-now' }, Math.round(nowTotal * 10) / 10 + ''));
-        totalCard.appendChild(totalRow);
-        var totalGain = Math.round((nowTotal - startTotal) * 10) / 10;
-        if (totalGain > 0) {
-          totalCard.appendChild(el('div', { className: 'day1-lift-gain' }, '+' + totalGain + ' kg total'));
-        }
-        section.appendChild(totalCard);
-      }
-
-      // Chin ups & Push ups
-      if (ob.chinUps !== undefined || ob.pushUps !== undefined) {
-        section.appendChild(el('div', { className: 'day1-notes-label' }, 'Bodyweight — Day 1'));
-        var bwGrid = el('div', { className: 'day1-bw-grid' });
-        var chinVal = ob.chinUps === 0 ? 'Not yet' : (typeof ob.chinUps === 'number' ? ob.chinUps + ' reps' : (ob.chinUps || '\u2014'));
-        var pushVal = ob.pushUps === 0 ? 'Not yet' : (typeof ob.pushUps === 'number' ? ob.pushUps + ' reps' : (ob.pushUps || '\u2014'));
-
-        var chinCard = el('div', { className: 'day1-lift-card' });
-        chinCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Chin Ups'));
-        chinCard.appendChild(el('div', { className: 'day1-lift-val' }, chinVal));
-        bwGrid.appendChild(chinCard);
-
-        var pushCard = el('div', { className: 'day1-lift-card' });
-        pushCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Push Ups'));
-        pushCard.appendChild(el('div', { className: 'day1-lift-val' }, pushVal));
-        bwGrid.appendChild(pushCard);
-
-        section.appendChild(bwGrid);
-      }
-
-      // Injuries
       if (ob.injuries && ob.injuries !== 'None') {
         section.appendChild(el('div', { className: 'day1-notes-label' }, 'Injuries / Limitations'));
         section.appendChild(el('div', { className: 'day1-notes' }, ob.injuries));
       }
-
-      // Notes
       if (ob.notes && ob.notes !== 'None') {
-        section.appendChild(el('div', { className: 'day1-notes-label' }, 'Notes from Day 1'));
+        section.appendChild(el('div', { className: 'day1-notes-label' }, 'Notes'));
         section.appendChild(el('div', { className: 'day1-notes' }, ob.notes));
       }
-
       container.appendChild(section);
+    }
+    return;
+  }
+
+  // Skip if first = now (only 1 entry, no progress to show)
+  if (!hasOnboarding && benchFirst.weight === benchNow.weight && squatFirst.weight === squatNow.weight && deadliftFirst.weight === deadliftNow.weight) return;
+
+  var section = el('div', { className: 'day1-section' });
+  section.appendChild(el('div', { className: 'day1-title' }, hasOnboarding ? 'Day 1 vs Now' : 'First vs Now'));
+  section.appendChild(el('div', { className: 'day1-subtitle' }, 'Your starting point from ' + (startDate || 'your first session')));
+
+  // Goals (onboarding only)
+  if (hasOnboarding && ob.goals && ob.goals.length > 0) {
+    section.appendChild(el('div', { className: 'day1-notes-label' }, 'Your Goals'));
+    var goalsWrap = el('div', { className: 'day1-goals' });
+    ob.goals.forEach(function(g) { goalsWrap.appendChild(el('span', { className: 'day1-goal-tag' }, g)); });
+    section.appendChild(goalsWrap);
+  }
+
+  // Lift comparison
+  section.appendChild(el('div', { className: 'day1-notes-label' }, 'Lifts \u2014 Then vs Now'));
+  var liftsGrid = el('div', { className: 'day1-lifts-grid' });
+
+  [
+    { label: 'Bench', start: benchFirst.weight, info: benchNow },
+    { label: 'Squat', start: squatFirst.weight, info: squatNow },
+    { label: 'Deadlift', start: deadliftFirst.weight, info: deadliftNow }
+  ].forEach(function(lift) {
+    var card = el('div', { className: 'day1-lift-card' });
+    card.appendChild(el('div', { className: 'day1-lift-label' }, lift.label));
+
+    if (lift.start || lift.info.weight) {
+      var typeLabel = lift.info.weight > 0 ? (lift.info.is1RM ? '1RM' : 'Working Max') : '';
+      if (typeLabel) {
+        card.appendChild(el('div', { style: { fontSize: '10px', fontWeight: '700', letterSpacing: '1px', color: lift.info.is1RM ? '#22c55e' : 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' } }, typeLabel));
+      }
+
+      var row = el('div', { className: 'day1-lift-row' });
+      row.appendChild(el('span', { className: 'day1-lift-val' }, Math.round(lift.start || 0) + ''));
+      row.appendChild(el('span', { className: 'day1-lift-arrow' }, '\u2192'));
+      row.appendChild(el('span', { className: 'day1-lift-now' }, Math.round(lift.info.weight || 0) + ''));
+      card.appendChild(row);
+
+      if (!lift.info.is1RM && lift.info.weight > 0) {
+        card.appendChild(el('div', { style: { fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' } }, lift.info.rawWeight + 'kg x ' + lift.info.reps + ' reps'));
+      }
+
+      var gain = (lift.info.weight || 0) - (lift.start || 0);
+      if (gain > 0) {
+        card.appendChild(el('div', { className: 'day1-lift-gain' }, '+' + Math.round(gain * 10) / 10 + ' kg'));
+      } else if (gain === 0 && lift.info.weight > 0) {
+        card.appendChild(el('div', { className: 'day1-lift-gain', style: { color: 'var(--text-muted)' } }, 'Same'));
+      }
+    } else {
+      card.appendChild(el('div', { className: 'day1-lift-empty' }, 'Not yet'));
+    }
+
+    liftsGrid.appendChild(card);
+  });
+  section.appendChild(liftsGrid);
+
+  // Total comparison
+  var startTotal = (benchFirst.weight || 0) + (squatFirst.weight || 0) + (deadliftFirst.weight || 0);
+  var nowTotal = benchNow.weight + squatNow.weight + deadliftNow.weight;
+  if (startTotal > 0 || nowTotal > 0) {
+    var totalCard = el('div', { className: 'day1-lift-card', style: { marginBottom: '16px' } });
+    totalCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Total'));
+    var totalRow = el('div', { className: 'day1-lift-row' });
+    totalRow.appendChild(el('span', { className: 'day1-lift-val' }, Math.round(startTotal) + ''));
+    totalRow.appendChild(el('span', { className: 'day1-lift-arrow' }, '\u2192'));
+    totalRow.appendChild(el('span', { className: 'day1-lift-now' }, Math.round(nowTotal * 10) / 10 + ''));
+    totalCard.appendChild(totalRow);
+    var totalGain = Math.round((nowTotal - startTotal) * 10) / 10;
+    if (totalGain > 0) {
+      totalCard.appendChild(el('div', { className: 'day1-lift-gain' }, '+' + totalGain + ' kg total'));
+    }
+    section.appendChild(totalCard);
+  }
+
+  // Chin ups & Push ups (onboarding only)
+  if (hasOnboarding && (ob.chinUps !== undefined || ob.pushUps !== undefined)) {
+    section.appendChild(el('div', { className: 'day1-notes-label' }, 'Bodyweight \u2014 Day 1'));
+    var bwGrid = el('div', { className: 'day1-bw-grid' });
+    var chinVal = ob.chinUps === 0 ? 'Not yet' : (typeof ob.chinUps === 'number' ? ob.chinUps + ' reps' : (ob.chinUps || '\u2014'));
+    var pushVal = ob.pushUps === 0 ? 'Not yet' : (typeof ob.pushUps === 'number' ? ob.pushUps + ' reps' : (ob.pushUps || '\u2014'));
+
+    var chinCard = el('div', { className: 'day1-lift-card' });
+    chinCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Chin Ups'));
+    chinCard.appendChild(el('div', { className: 'day1-lift-val' }, chinVal));
+    bwGrid.appendChild(chinCard);
+
+    var pushCard = el('div', { className: 'day1-lift-card' });
+    pushCard.appendChild(el('div', { className: 'day1-lift-label' }, 'Push Ups'));
+    pushCard.appendChild(el('div', { className: 'day1-lift-val' }, pushVal));
+    bwGrid.appendChild(pushCard);
+
+    section.appendChild(bwGrid);
+  }
+
+  // Injuries (onboarding only)
+  if (hasOnboarding && ob.injuries && ob.injuries !== 'None') {
+    section.appendChild(el('div', { className: 'day1-notes-label' }, 'Injuries / Limitations'));
+    section.appendChild(el('div', { className: 'day1-notes' }, ob.injuries));
+  }
+
+  // Notes (onboarding only)
+  if (hasOnboarding && ob.notes && ob.notes !== 'None') {
+    section.appendChild(el('div', { className: 'day1-notes-label' }, 'Notes from Day 1'));
+    section.appendChild(el('div', { className: 'day1-notes' }, ob.notes));
+  }
+
+  container.appendChild(section);
+}
+
+function fetchAndRenderDay1(member, container) {
+  var emailSlug = (member.email || '').replace(/[^a-z0-9]/g, '_');
+  var url = 'https://raw.githubusercontent.com/joshcurryrtb/rtb-onboarding/main/responses/' + emailSlug + '.json?v=' + Date.now();
+
+  fetch(url)
+    .then(function(r) { if (!r.ok) throw new Error('not found'); return r.json(); })
+    .then(function(ob) {
+      renderDay1Section(member, container, ob);
     })
     .catch(function() {
-      placeholder.remove();
-      // No onboarding data — just skip silently
+      // No onboarding data — use TrainHeroic first lifts as baseline
+      renderDay1Section(member, container, null);
     });
 }
 
