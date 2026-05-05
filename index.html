@@ -1944,12 +1944,14 @@ function calc1RM(weight, reps) {
 
 function getBest1RM(entries) {
   if (!entries || entries.length === 0) return { weight: 0, date: null };
-  let best = 0, bestDate = null;
-  for (const e of entries) {
-    const est = calc1RM(e.weight, e.reps);
-    if (est > best) { best = est; bestDate = e.date; }
-  }
-  return { weight: best, date: bestDate };
+  // Priority: lowest reps first (1RM > 2RM > 3RM etc), then highest weight within same rep tier
+  var sorted = entries.slice().sort(function(a, b) {
+    var ra = a.reps || 1, rb = b.reps || 1;
+    if (ra !== rb) return ra - rb;
+    return (b.wm || calc1RM(b.weight, b.reps)) - (a.wm || calc1RM(a.weight, a.reps));
+  });
+  var e = sorted[0];
+  return { weight: e.reps <= 1 ? e.weight : (e.wm || calc1RM(e.weight, e.reps)), date: e.date };
 }
 
 function getFirst1RM(entries) {
@@ -2720,13 +2722,15 @@ var TRIAL_QUOTES = [
 
 function getBestLiftInfo(entries) {
   if (!entries || entries.length === 0) return { weight: 0, date: null, is1RM: false, reps: 0, rawWeight: 0 };
-  var best = 0, bestDate = null, bestReps = 0, bestRaw = 0;
-  for (var i = 0; i < entries.length; i++) {
-    var e = entries[i];
-    var est = calc1RM(e.weight, e.reps);
-    if (est > best) { best = est; bestDate = e.date; bestReps = e.reps; bestRaw = e.weight; }
-  }
-  return { weight: best, date: bestDate, is1RM: bestReps <= 1, reps: bestReps, rawWeight: bestRaw };
+  // Priority: lowest reps first (1RM > 2RM > 3RM etc), then highest weight within same rep tier
+  var sorted = entries.slice().sort(function(a, b) {
+    var ra = a.reps || 1, rb = b.reps || 1;
+    if (ra !== rb) return ra - rb;
+    return (b.wm || calc1RM(b.weight, b.reps)) - (a.wm || calc1RM(a.weight, a.reps));
+  });
+  var e = sorted[0];
+  var est = e.reps <= 1 ? e.weight : (e.wm || calc1RM(e.weight, e.reps));
+  return { weight: est, date: e.date, is1RM: (e.reps || 1) <= 1, reps: e.reps, rawWeight: e.weight };
 }
 
 function getFirstLiftInfo(entries) {
